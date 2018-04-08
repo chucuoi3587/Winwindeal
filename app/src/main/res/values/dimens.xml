@@ -1,0 +1,29 @@
+<resources>
+    <dimen name="text_size_1">16dp</dimen>
+    <dimen name="text_size_2">14dp</dimen>
+    <dimen name="text_size_3">12dp</dimen>
+    <dimen name="text_size_4">10dp</dimen>
+    <dimen name="text_size_medium">18dp</dimen>
+
+    <!-- passcode screen -->
+    <dimen name="passcode_num_margin">20dp</dimen>
+    <dimen name="passcode_item_margin">2dp</dimen>
+
+    <!-- icon -->
+    <dimen name="check_icon_size">25dp</dimen>
+    <dimen name="loading_icon_size">45dp</dimen>
+    <dimen name="text_size_large">22dp</dimen>
+    <dimen name="text_size_extra_large">25dp</dimen>
+    <dimen name="text_size_super_large">28dp</dimen>
+    <dimen name="folder_icon_size">30dp</dimen>
+
+    <dimen name="card_margin">5dp</dimen>
+    <dimen name="card_album_radius">0dp</dimen>
+    <dimen name="ic_album_overflow_width">20dp</dimen>
+    <dimen name="ic_album_overflow_height">30dp</dimen>
+    <dimen name="ic_album_overflow_margin_top">10dp</dimen>
+    <dimen name="album_cover_height">160dp</dimen>
+    <dimen name="album_title_padding">10dp</dimen>
+    <dimen name="album_title">15dp</dimen>
+    <dimen name="songs_count_padding_bottom">5dp</dimen>
+</resources>

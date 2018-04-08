@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.pitt.loading.library:library-0.8">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/library-0.8.aar/99e82f5a1101f916ebe268dc94aa8b25/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/library-0.8.aar/99e82f5a1101f916ebe268dc94aa8b25/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.pitt.loading.library/library/0.8/a834df00e676509878351d8c7fd04d20ba4c1a5c/library-0.8-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_home"
+        android:enabled="true"
+        android:icon="@drawable/icon_home"
+        android:title="@string/home_lbl"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_task"
+        android:enabled="true"
+        android:icon="@drawable/icon_tasks_list"
+        android:title="@string/task_list_lbl"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_me"
+        android:enabled="true"
+        android:icon="@drawable/icon_user"
+        android:title="@string/about_me_lbl"
+        app:showAsAction="ifRoom" />
+</menu>

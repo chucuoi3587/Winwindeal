@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:loadingView="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical" >
+
+    <com.pitt.loadingview.library.LoadingView
+        android:id="@+id/refreshImgv"
+        android:layout_width="@dimen/loading_icon_size"
+        android:layout_height="@dimen/loading_icon_size"
+        loadingView:color="@color/colorPrimary"
+        loadingView:progress_style="material"
+        android:layout_gravity="center"
+        loadingView:ring_radius="8dp"
+        loadingView:ring_style="round"
+        loadingView:ring_width="2dp"
+        android:background="@drawable/bg_loading_icon"/>
+
+</LinearLayout>

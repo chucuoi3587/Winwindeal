@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">WinWinDeal</string>
+    <string name="username_hint">Tên đăng nhập</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Mật khẩu</string>
+    <string name="address_hint">Địa chỉ</string>
+    <string name="phone_hint">Số điện thoại</string>
+    <string name="login_cap_lbl">ĐĂNG NHẬP</string>
+    <string name="login_or_lbl">-- Hay --</string>
+    <string name="register_new_lbl">Đăng ký mới</string>
+    <style name="register_cap_lbl"></style>
+    <string name="username_empty_warning">Tên đăng nhập không được để trống.</string>
+    <string name="password_empty_warning">Mật khẩu không được để trống.</string>
+    <string name="username_wrong_warning">Sai tên đăng nhập.</string>
+    <string name="password_wrong_warning">Sai mật khẩu.</string>
+    <string name="ok_lbl">OK</string>
+    <string name="cancel_lbl">CANCEL</string>
+    <string name="message_error_server">Không thể kết nối với server.</string>
+    <string name="register_cap_lbl">ĐĂNG KÝ</string>
+    <string name="create_account_lbl">Tạo tài khoản</string>
+    <string name="home_lbl">Trang chủ</string>
+    <string name="about_me_lbl">Tôi</string>
+    <string name="task_list_lbl">Đơn hàng</string>
+    <string name="register_successfully">Đăng ký thành công, xin mời đăng nhập!</string>
+    <string name="login_fail">Email hoặc mật khẩu không chính xác, vui lòng nhập lại!</string>
+</resources>
