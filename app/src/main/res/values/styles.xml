@@ -28,5 +28,6 @@
     <style name="TextView">
         <item name="android:textSize">@dimen/text_size_2</item>
         <item name="android:textColor">@color/colorTextView</item>
+        <item name="android:padding">10dp</item>
     </style>
 </resources>

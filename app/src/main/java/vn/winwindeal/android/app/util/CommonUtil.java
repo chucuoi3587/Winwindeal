@@ -1,8 +1,10 @@
 package vn.winwindeal.android.app.util;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.TypedValue;
 
 import java.io.File;
 import java.math.BigInteger;
@@ -100,5 +102,13 @@ public class CommonUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Converting dp to pixel
+     */
+    public static int dpToPx(int dp, Context context) {
+        Resources r = context.getResources();
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 }

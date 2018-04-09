@@ -46,4 +46,7 @@ public class Constant {
 
     public static final String SELECTED_PAGE = "selected_page";
     public static final int HOME_FRAGMENT = 0;
+
+    public static final int REQUEST_CREATE_PRODUCT = 1000;
+    public static final int REQUEST_EDIT_PRODUCT = 1001;
 }

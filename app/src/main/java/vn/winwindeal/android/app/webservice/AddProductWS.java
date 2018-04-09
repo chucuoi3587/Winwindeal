@@ -52,9 +52,6 @@ public class AddProductWS extends DataLoader {
 
             StringBuilder query = new StringBuilder(api + Constant.API_ADD_PRODUCT);
 
-            query.append("?");
-            query.append(convertListParamsToURLString(paramsSearch));
-
             // query.append("sig=" + signature);
 
             Log.d("TAG", "TEST WSAddProduct " + query.toString());

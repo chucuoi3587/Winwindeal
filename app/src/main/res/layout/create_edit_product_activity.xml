@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways"
+        android:theme="@style/ToolbarColoredBackArrow"
+        app:titleTextColor="@color/colorWhite"
+        android:elevation="2dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="20dp">
+        <ImageView
+            android:id="@+id/thumbnailImgv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@drawable/picture"
+            android:layout_marginTop="15dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <EditText
+                android:id="@+id/thumbnailEdt"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                style="@style/TextView"
+                android:layout_marginTop="10dp"
+                android:singleLine="true"
+                android:hint="@string/product_thumbnail_hint"
+                android:textColorHint="@color/colorSubTextView"
+                android:background="@drawable/box_defocus_border"/>
+            <ImageView
+                android:id="@+id/resetIcon"
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/reset"
+                android:layout_gravity="center"
+                android:tint="@color/colorPrimaryDark"/>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/productNameEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextView"
+            android:singleLine="true"
+            android:hint="@string/product_name_hint"
+            android:textColorHint="@color/colorSubTextView"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/box_defocus_border"/>
+        <EditText
+            android:id="@+id/productCodeEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextView"
+            android:singleLine="true"
+            android:hint="@string/product_code_hint"
+            android:textColorHint="@color/colorSubTextView"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/box_defocus_border"/>
+        <EditText
+            android:id="@+id/productOriginEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextView"
+            android:singleLine="true"
+            android:hint="@string/product_origin_hint"
+            android:textColorHint="@color/colorSubTextView"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/box_defocus_border"/>
+        <EditText
+            android:id="@+id/productPriceEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextView"
+            android:singleLine="true"
+            android:inputType="numberDecimal"
+            android:hint="@string/product_price_hint"
+            android:textColorHint="@color/colorSubTextView"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/box_defocus_border"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

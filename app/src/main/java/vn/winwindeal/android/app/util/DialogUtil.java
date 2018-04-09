@@ -128,4 +128,43 @@ public class DialogUtil {
         dialog.setCancelable(false);
         dialog.show();
     }
+
+    public static void showNetworkDialogWarning(Context context, final View.OnClickListener listener, int messageGravity, boolean isCancellable) {
+        final Dialog dialog = new Dialog(context);
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(
+                new ColorDrawable(context.getResources().getColor(
+                        R.color.transparent)));
+        dialog.setContentView(R.layout.warning_popup);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        ((TextView) dialog.findViewById(R.id.titleTv)).setTypeface(FontUtil.getFontAssets(context, FontUtil.ROBOTO_MEDIUM));
+
+        ((TextView) dialog.findViewById(R.id.titleTv)).setText(context.getResources().getString(R.string.network_connection_title));
+
+        ((TextView) dialog.findViewById(R.id.messageTv)).setText(context.getResources().getString(R.string.slow_network_warning));
+
+        ((TextView) dialog.findViewById(R.id.okTv)).setText(context.getResources().getString(R.string.close_cap_lbl).toUpperCase(Locale.US));
+        ((TextView) dialog.findViewById(R.id.okTv)).setTextColor(context.getResources().getColor(R.color.colorTextView));
+        dialog.findViewById(R.id.okTv).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                if (listener != null) {
+                    listener.onClick(v);
+                }
+                dialog.dismiss();
+            }
+        });
+
+        dialog.setCancelable(isCancellable);
+        dialog.show();
+    }
 }

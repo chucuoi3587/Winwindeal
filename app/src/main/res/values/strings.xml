@@ -23,4 +23,20 @@
     <string name="task_list_lbl">Đơn hàng</string>
     <string name="register_successfully">Đăng ký thành công, xin mời đăng nhập!</string>
     <string name="login_fail">Email hoặc mật khẩu không chính xác, vui lòng nhập lại!</string>
+    <string name="network_connection_title">Kết nối</string>
+    <string name="slow_network_warning">Không có kết nối Internet hoặc tốc độ quá chậm. Xin kiểm tra lại kết nối Wifi hoặc mạng dữ liệu di động!</string>
+    <string name="close_cap_lbl">ĐÓNG</string>
+    <string name="product_name_hint">Tên sản phẩm</string>
+    <string name="product_code_hint">Mã sản phẩm</string>
+    <string name="product_origin_hint">Xuất xứ</string>
+    <string name="product_price_hint">Giá</string>
+    <string name="product_thumbnail_hint">Link hình ảnh</string>
+    <string name="create_product_successfully">Tạo sản phẩm thành công!</string>
+    <string name="price_call">Giá : Liên hệ</string>
+    <string name="order_now">Đặt hàng ngay</string>
+    <string name="add_to_cart">Thêm vào giỏ hàng</string>
+    <string name="alive_lbl">Còn hàng</string>
+    <string name="out_of_stock">Hết hàng</string>
+    <string name="save_cap_lbl">LƯU</string>
+    <string name="delete_cap_lbl">XÓA</string>
 </resources>
