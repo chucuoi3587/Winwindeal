@@ -28,7 +28,7 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
 
     Toolbar toolbar;
     private AddProductWS mAddProductWs;
-    private EditText mNameEdt, mCodeEdt, mThumbnailEdt, mPriceEdt, mOriginEdt;
+    private EditText mNameEdt, mCodeEdt, mThumbnailEdt, mPriceEdt, mOriginEdt, mQuantityEdt, mDescriptionEdt;
     boolean isLock = false;
     boolean isEdit = false;
     Product product;

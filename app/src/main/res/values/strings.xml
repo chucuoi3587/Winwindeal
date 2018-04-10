@@ -13,8 +13,8 @@
     <string name="password_empty_warning">Mật khẩu không được để trống.</string>
     <string name="username_wrong_warning">Sai tên đăng nhập.</string>
     <string name="password_wrong_warning">Sai mật khẩu.</string>
-    <string name="ok_lbl">OK</string>
-    <string name="cancel_lbl">CANCEL</string>
+    <string name="ok_lbl">ĐỒNG Ý</string>
+    <string name="cancel_lbl">HỦY</string>
     <string name="message_error_server">Không thể kết nối với server.</string>
     <string name="register_cap_lbl">ĐĂNG KÝ</string>
     <string name="create_account_lbl">Tạo tài khoản</string>
@@ -31,12 +31,21 @@
     <string name="product_origin_hint">Xuất xứ</string>
     <string name="product_price_hint">Giá</string>
     <string name="product_thumbnail_hint">Link hình ảnh</string>
+    <string name="description_hint">Mô tả sản phẩm</string>
+    <string name="quantity_hint">Số lượng</string>
     <string name="create_product_successfully">Tạo sản phẩm thành công!</string>
     <string name="price_call">Giá : Liên hệ</string>
     <string name="order_now">Đặt hàng ngay</string>
+    <string name="confirm_order">XÁC NHẬN ĐẶT HÀNG</string>
     <string name="add_to_cart">Thêm vào giỏ hàng</string>
     <string name="alive_lbl">Còn hàng</string>
     <string name="out_of_stock">Hết hàng</string>
     <string name="save_cap_lbl">LƯU</string>
     <string name="delete_cap_lbl">XÓA</string>
+    <string name="user_manage">Quản lý người dùng</string>
+    <string name="staff_lbl">Nhân viên</string>
+    <string name="customer_lbl">Khách hàng</string>
+    <string name="settings_lbl">Thiết lập</string>
+    <string name="log_out_cap_lbl">ĐĂNG XUẤT</string>
+    <string name="log_out_warning_message">Bạn có muốn thoát khỏi tài khoản?</string>
 </resources>

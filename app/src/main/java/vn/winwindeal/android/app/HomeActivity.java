@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 
 import vn.winwindeal.android.app.fragment.ProductListFragment;
+import vn.winwindeal.android.app.fragment.SettingsFragment;
+import vn.winwindeal.android.app.fragment.UsersFragment;
 
 /**
  * Created by nhannguyen on 4/6/2018.
@@ -31,10 +33,13 @@ public class HomeActivity extends BaseActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_home:
-//                        setFragment(Constant.ACTIVITY_FRAGMENT);
+                        setFragment(Constant.HOME_FRAGMENT);
                         break;
-                    case R.id.action_me:
-//                        setFragment(Constant.CREATE_PROOF_PRIVATE_FRAGMENT);
+                    case R.id.action_users:
+                        setFragment(Constant.USERS_MANAGE_FRAGMENT);
+                        break;
+                    case R.id.action_settings:
+                        setFragment(Constant.SETTINGS_FRAGMENT);
                         break;
                 }
                 return true;
@@ -54,6 +59,12 @@ public class HomeActivity extends BaseActivity {
         switch (pos) {
             case Constant.HOME_FRAGMENT:
                 fragment = new ProductListFragment();
+                break;
+            case Constant.USERS_MANAGE_FRAGMENT:
+                fragment = new UsersFragment();
+                break;
+            case Constant.SETTINGS_FRAGMENT:
+                fragment = new SettingsFragment();
                 break;
 //            case Constant.CREATE_PROOF_PRIVATE_FRAGMENT:
 //                fragment = new PrivateProofFragment();

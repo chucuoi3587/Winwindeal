@@ -46,9 +46,6 @@ public class LogoutWS extends DataLoader {
 
             StringBuilder query = new StringBuilder(api + Constant.API_LOGOUT);
 
-            query.append("?");
-            query.append(convertListParamsToURLString(paramsSearch));
-
             // query.append("sig=" + signature);
 
             Log.d("TAG", "TEST WSLogOut " + query.toString());

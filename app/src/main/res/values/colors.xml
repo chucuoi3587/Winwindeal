@@ -8,6 +8,9 @@
     <color name="colorSubTextView">#b8b8b8</color>
     <color name="colorOrangePress">#ff9f48</color>
     <color name="colorWhite">#ffffff</color>
+    <color name="colorWhite60Transparent">#99ffffff</color>
+    <color name="colorRed">#E30049</color>
+    <color name="colorBackground">#f5f8fa</color>
     <color name="transparent">#00000000</color>
     <color name="line_color">#DDDDDD</color>
 </resources>

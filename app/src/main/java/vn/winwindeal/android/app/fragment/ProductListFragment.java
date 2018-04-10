@@ -24,6 +24,7 @@ import vn.winwindeal.android.app.Constant;
 import vn.winwindeal.android.app.CreateEditProductActivity;
 import vn.winwindeal.android.app.GlobalSharedPreference;
 import vn.winwindeal.android.app.HomeActivity;
+import vn.winwindeal.android.app.ProductDetailActivity;
 import vn.winwindeal.android.app.R;
 import vn.winwindeal.android.app.adapter.ProductListAdapter;
 import vn.winwindeal.android.app.model.Product;
@@ -116,10 +117,17 @@ public class ProductListFragment extends Fragment implements View.OnClickListene
     private ProductListAdapter.ProductItemClickInterface mListener = new ProductListAdapter.ProductItemClickInterface() {
         @Override
         public void onItemClickedListener(int position) {
-            Product p = mProducts.get(position);
-            Intent intent = new Intent(getActivity(), CreateEditProductActivity.class);
-            intent.putExtra("product", p);
-            startActivityForResult(intent, Constant.REQUEST_EDIT_PRODUCT);
+            if (ui.user_type == 1) { // admin
+                Product p = mProducts.get(position);
+                Intent intent = new Intent(getActivity(), CreateEditProductActivity.class);
+                intent.putExtra("product", p);
+                startActivityForResult(intent, Constant.REQUEST_EDIT_PRODUCT);
+            } else if (ui.user_type == 3) { //customer
+                Product p = mProducts.get(position);
+                Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                intent.putExtra("product", p);
+                startActivity(intent);
+            }
         }
     };
 

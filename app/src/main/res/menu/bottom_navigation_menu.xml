@@ -14,9 +14,15 @@
         android:title="@string/task_list_lbl"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_me"
+        android:id="@+id/action_users"
         android:enabled="true"
-        android:icon="@drawable/icon_user"
-        android:title="@string/about_me_lbl"
+        android:icon="@drawable/group_users"
+        android:title="@string/user_manage"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_settings"
+        android:enabled="true"
+        android:icon="@drawable/icon_settings"
+        android:title="@string/settings_lbl"
         app:showAsAction="ifRoom" />
 </menu>

@@ -36,7 +36,7 @@ public class Product implements Parcelable{
         this.isHotdeal = isHotdeal;
     }
 
-    public JSONObject parseToJsonString() {
+    public JSONObject parseToJson() {
         try {
             JSONObject json = new JSONObject();
             json.accumulate("id", product_id);
@@ -46,7 +46,7 @@ public class Product implements Parcelable{
             json.accumulate("price", price);
             json.accumulate("code", code);
             json.accumulate("origin", product_origin);
-            json.accumulate("thumbnail", thumbnail);
+            json.accumulate("thumnail", thumbnail);
             json.accumulate("type_id", type);
             json.accumulate("status", status);
             json.accumulate("isHotdeal",isHotdeal);
@@ -66,6 +66,7 @@ public class Product implements Parcelable{
             thumbnail = json.optString("thumnail");
             product_origin = json.optString("origin");
             status = json.optInt("status");
+            description = json.optString("description", "");
         }
     }
 
@@ -77,6 +78,7 @@ public class Product implements Parcelable{
         thumbnail = in.readString();
         price = in.readDouble();
         status = in.readInt();
+        description = in.readString();
     }
 
     @Override
@@ -93,6 +95,7 @@ public class Product implements Parcelable{
         dest.writeString(thumbnail);
         dest.writeDouble(price);
         dest.writeInt(status);
+        dest.writeString(description);
     }
 
     public static final Creator CREATOR = new Creator() {

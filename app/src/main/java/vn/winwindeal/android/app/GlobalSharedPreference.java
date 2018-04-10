@@ -81,4 +81,17 @@ public class GlobalSharedPreference {
                 null);
         return restoredText;
     }
+
+    public static void saveProductOrder(Context context, String order) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(context.getResources().getString(R.string.app_name),
+                Context.MODE_PRIVATE).edit();
+        editor.putString(Constant.JSON_TAG_ORDER, order);
+        editor.commit();
+    }
+
+    public static String getProductOrder(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(context.getResources().getString(R.string.app_name),
+                Context.MODE_PRIVATE);
+        return prefs.getString(Constant.JSON_TAG_ORDER, "");
+    }
 }
