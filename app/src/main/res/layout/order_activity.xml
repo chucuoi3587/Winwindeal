@@ -30,7 +30,10 @@
         android:layout_margin="10dp"
         android:padding="10dp"
         android:textColor="@color/colorTextView"
-        android:textSize="@dimen/text_size_2"/>
+        android:hint="@string/address_hint"
+        android:lines="4"
+        android:textSize="@dimen/text_size_2"
+        android:gravity="top"/>
     <Button
         android:id="@+id/confirmOrderBtn"
         android:layout_width="match_parent"

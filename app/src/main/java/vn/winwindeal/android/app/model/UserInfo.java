@@ -12,6 +12,9 @@ public class UserInfo {
     public String access_token;
     public String refresh_token;
     public int user_type;
+    public String address;
+    public int district_id;
+    public String phone;
 
     public UserInfo() {
 
@@ -23,6 +26,9 @@ public class UserInfo {
             refresh_token = json.optString("refresh_token");
             user_type = json.optInt("role_id");
             email = json.optString("email");
+            address = json.optString("address", "");
+            phone = json.optString("phone", "");
+            district_id = json.optInt("district_id", -1);
         }
     }
 }

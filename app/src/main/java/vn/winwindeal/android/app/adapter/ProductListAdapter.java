@@ -73,7 +73,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopupMenu(holder.overflow);
+                showPopupMenu(holder.overflow, position);
             }
         });
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -113,8 +113,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     /**
      * Showing popup menu when tapping on 3 dots
      */
-    private void showPopupMenu(View view) {
+    private void showPopupMenu(View view, int position) {
         // inflate menu
+        mListener.setPosition(position);
         PopupMenu popup = new PopupMenu(mContext, view);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.product_item_menu, popup.getMenu());

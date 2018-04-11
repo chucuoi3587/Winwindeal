@@ -3,6 +3,8 @@ package vn.winwindeal.android.app;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.HashMap;
+
 import vn.winwindeal.android.app.model.UserInfo;
 
 /**
@@ -22,6 +24,9 @@ public class GlobalSharedPreference {
         editor.putString(Constant.JSON_TAG_EMAIL,"");
         editor.putString(Constant.JSON_TAG_ACCESS_TOKEN, "");
         editor.putString(Constant.JSON_TAG_REFRESH_TOKEN, "");
+        editor.putInt(Constant.JSON_TAG_USER_ID, -1);
+        editor.putInt(Constant.JSON_TAG_USER_TYPE, -1);
+        editor.putString(Constant.JSON_TAG_ORDER, "");
         editor.commit();
     }
 
@@ -82,16 +87,20 @@ public class GlobalSharedPreference {
         return restoredText;
     }
 
-    public static void saveProductOrder(Context context, String order) {
+    public static void saveProductOrder(Context context, HashMap<String, String> map) {
         SharedPreferences.Editor editor = context.getSharedPreferences(context.getResources().getString(R.string.app_name),
                 Context.MODE_PRIVATE).edit();
-        editor.putString(Constant.JSON_TAG_ORDER, order);
+        editor.putString(Constant.JSON_TAG_ORDER, map.get(Constant.ORDER));
+        editor.putString(Constant.JSON_TAG_QUANTITY, map.get(Constant.QUANTITY));
         editor.commit();
     }
 
-    public static String getProductOrder(Context context) {
+    public static HashMap getProductOrder(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(context.getResources().getString(R.string.app_name),
                 Context.MODE_PRIVATE);
-        return prefs.getString(Constant.JSON_TAG_ORDER, "");
+        HashMap<String, String> map = new HashMap<>();
+        map.put(Constant.QUANTITY, prefs.getString(Constant.JSON_TAG_QUANTITY, ""));
+        map.put(Constant.ORDER, prefs.getString(Constant.JSON_TAG_ORDER, ""));
+        return map;
     }
 }

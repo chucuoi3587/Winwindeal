@@ -18,7 +18,8 @@ import vn.winwindeal.android.app.network.DataLoader;
 
 public class RegisterWS extends DataLoader {
 
-    private String mEmail, mUsername, mPassword;
+    private String mEmail, mPassword, mAddress, mPhone;
+    private int mTypeUser, mDistrictId;
     private DataLoaderInterface mHandler;
 
     public RegisterWS(Context context) {
@@ -29,10 +30,13 @@ public class RegisterWS extends DataLoader {
         this.mHandler = handler;
     }
 
-    public void doRegister(String email, String username, String password, String address) {
+    public void doRegister(String email, String password, String address, String phone, int typeUser, int districtId) {
         this.mEmail = email;
         this.mPassword = password;
-        this.mUsername = username;
+        this.mAddress = address;
+        this.mPhone = phone;
+        this.mTypeUser = typeUser;
+        this.mDistrictId = districtId;
         checkSessionTokenAndBuildRequest();
     }
 
@@ -42,8 +46,11 @@ public class RegisterWS extends DataLoader {
             List<NameValuePair> paramsSearch = new ArrayList<>();
             JSONObject json = new JSONObject();
             json.accumulate("email", mEmail);
-            json.accumulate("username", mUsername);
             json.accumulate("password", mPassword);
+            json.accumulate("address", mAddress);
+            json.accumulate("phone", mPhone);
+            json.accumulate("role_id", mTypeUser);
+            json.accumulate("district_id", mDistrictId);
 
             StringBuilder query = new StringBuilder(api + Constant.API_REGISTER);
 

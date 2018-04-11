@@ -29,6 +29,10 @@ public class Constant {
     public final static String JSON_TAG_REFRESH_TOKEN = "refresh_token";
     public final static String JSON_TAG_ACCESS_TOKEN = "session_token";
     public static final String JSON_TAG_ORDER = "orders";
+    public static final String JSON_TAG_QUANTITY = "quantities";
+
+    public static final String QUANTITY = "quantity";
+    public static final String ORDER = "order";
 
     public static final String APP_API = "http://108.61.216.223:2018";
     public static final String API_REGISTER = "/register";

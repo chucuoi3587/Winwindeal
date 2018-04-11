@@ -10,7 +10,10 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 
+import vn.winwindeal.android.app.adapter.SpinnerAdapter;
+import vn.winwindeal.android.app.model.SpinnerObj;
 import vn.winwindeal.android.app.network.DataLoader;
 import vn.winwindeal.android.app.util.DialogUtil;
 import vn.winwindeal.android.app.util.FontUtil;
@@ -23,9 +26,13 @@ import vn.winwindeal.android.app.webservice.RegisterWS;
 public class RegisterActivity extends BaseActivity implements View.OnClickListener, DataLoader.DataLoaderInterface{
 
     Toolbar toolbar;
-    private EditText mEmailEdt, mUserNameEdt, mPasswordEdt, mAddressEdt, mPhoneEdt;
+    private EditText mEmailEdt, mPasswordEdt, mAddressEdt, mPhoneEdt;
     private RegisterWS mRegisterWs;
+    private Spinner mTypeSpinner, mDistrictSpinner;
     boolean isLock = false;
+    SpinnerAdapter typeAdapter;
+    SpinnerAdapter districtAdapter;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,12 +51,39 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         setTitle(ss);
 
         mEmailEdt = (EditText) findViewById(R.id.emailEdt);
-        mUserNameEdt = (EditText) findViewById(R.id.userNameEdt);
         mPasswordEdt = (EditText) findViewById(R.id.passEdt);
         mAddressEdt = (EditText) findViewById(R.id.addressEdt);
         mPhoneEdt = (EditText) findViewById(R.id.phoneEdt);
         mRegisterWs = new RegisterWS(this);
         findViewById(R.id.registerBtn).setOnClickListener(this);
+
+        mTypeSpinner = (Spinner) findViewById(R.id.typeSpinner);
+        SpinnerObj[] typeObjs = new SpinnerObj[2];
+        typeObjs[0] = new SpinnerObj(2, getResources().getString(R.string.staff_lbl));
+        typeObjs[1] = new SpinnerObj(3, getResources().getString(R.string.customer_lbl));
+        typeAdapter = new SpinnerAdapter(this, android.R.layout.simple_list_item_1, typeObjs);
+        mTypeSpinner.setAdapter(typeAdapter);
+
+        mDistrictSpinner = (Spinner) findViewById(R.id.districtSpinner);
+        SpinnerObj[] districtObjs = new SpinnerObj[16];
+        districtObjs[0] = new SpinnerObj(1, "Quận 1");
+        districtObjs[1] = new SpinnerObj(2, "Quận 2");
+        districtObjs[2] = new SpinnerObj(3, "Quận 3");
+        districtObjs[3] = new SpinnerObj(4, "Quận 4");
+        districtObjs[4] = new SpinnerObj(5, "Quận 5");
+        districtObjs[5] = new SpinnerObj(6, "Quận 6");
+        districtObjs[6] = new SpinnerObj(7, "Quận 7");
+        districtObjs[7] = new SpinnerObj(8, "Quận 8");
+        districtObjs[8] = new SpinnerObj(9, "Quận 9");
+        districtObjs[9] = new SpinnerObj(10, "Quận 10");
+        districtObjs[10] = new SpinnerObj(11, "Quận 11");
+        districtObjs[11] = new SpinnerObj(12, "Quận 12");
+        districtObjs[12] = new SpinnerObj(13, "Quận Bình Thạnh");
+        districtObjs[13] = new SpinnerObj(14, "Quận Phú Nhuận");
+        districtObjs[14] = new SpinnerObj(15, "Quận Gò Vấp");
+        districtObjs[15] = new SpinnerObj(16, "Quận Tân Phú");
+        districtAdapter = new SpinnerAdapter(this, android.R.layout.simple_list_item_1, districtObjs);
+        mDistrictSpinner.setAdapter(districtAdapter);
     }
 
     @Override
@@ -70,12 +104,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         switch (view.getId()) {
             case R.id.registerBtn:
                 String strEmail = mEmailEdt.getText().toString().trim();
-                String strUserName = mUserNameEdt.getText().toString().trim();
                 String strPass = mPasswordEdt.getText().toString().trim();
                 String strAddress = mAddressEdt.getText().toString().trim();
                 String strPhone = mPhoneEdt.getText().toString().trim();
-                if (!strUserName.equals("") && !strEmail.equals("") && !strPass.equals("") &&!strAddress.equals("")&&!strPhone.equals("")) {
-                    mRegisterWs.doRegister(strEmail, strUserName, strPass, strAddress);
+                SpinnerObj typeUserObj = (SpinnerObj) mTypeSpinner.getSelectedItem();
+                SpinnerObj districtObj = (SpinnerObj) mDistrictSpinner.getSelectedItem();
+                if (!strEmail.equals("") && !strPass.equals("") &&!strAddress.equals("")&&!strPhone.equals("")) {
+                    mRegisterWs.doRegister(strEmail, strPass, strAddress, strPhone, typeUserObj.key, districtObj.key);
                     showLoading();
                 }
                 break;

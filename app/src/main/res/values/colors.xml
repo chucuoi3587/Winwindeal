@@ -11,6 +11,7 @@
     <color name="colorWhite60Transparent">#99ffffff</color>
     <color name="colorRed">#E30049</color>
     <color name="colorBackground">#f5f8fa</color>
+    <color name="colorBlueStrokeBorder">#daecf9</color>
     <color name="transparent">#00000000</color>
     <color name="line_color">#DDDDDD</color>
 </resources>

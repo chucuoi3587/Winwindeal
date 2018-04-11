@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import vn.winwindeal.android.app.model.Product;
+import vn.winwindeal.android.app.util.CommonUtil;
 import vn.winwindeal.android.app.util.FontUtil;
 
 public class ProductDetailActivity extends BaseActivity implements View.OnClickListener{
@@ -71,48 +72,13 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        JSONArray jarray = new JSONArray();
-        JSONObject json;
-        String strOrder;
         switch (view.getId()) {
             case R.id.addToCartLayout:
-                strOrder = GlobalSharedPreference.getProductOrder(ProductDetailActivity.this);
-                if (!strOrder.equals("")) {
-                    try {
-                        json = new JSONObject(strOrder);
-                        jarray = json.optJSONArray(Constant.JSON_TAG_ORDER);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                jarray.put(mProduct.parseToJson());
-                json = new JSONObject();
-                try {
-                    json.accumulate(Constant.JSON_TAG_ORDER, jarray);
-                    GlobalSharedPreference.saveProductOrder(ProductDetailActivity.this, json.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                CommonUtil.addProductToCart(ProductDetailActivity.this, mProduct);
                 finish();
                 break;
             case R.id.orderBtn:
-                strOrder = GlobalSharedPreference.getProductOrder(ProductDetailActivity.this);
-                if (!strOrder.equals("")) {
-                    try {
-                        json = new JSONObject(strOrder);
-                        jarray = json.optJSONArray(Constant.JSON_TAG_ORDER);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                jarray.put(mProduct.parseToJson());
-                json = new JSONObject();
-                try {
-                    json.accumulate(Constant.JSON_TAG_ORDER, jarray);
-                    GlobalSharedPreference.saveProductOrder(ProductDetailActivity.this, json.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                CommonUtil.addProductToCart(ProductDetailActivity.this, mProduct);
                 Intent intent = new Intent(ProductDetailActivity.this, OrderActivity.class);
                 startActivity(intent);
                 break;

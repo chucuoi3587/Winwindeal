@@ -22,18 +22,6 @@
         android:orientation="vertical"
         android:padding="40dp">
         <EditText
-            android:id="@+id/userNameEdt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            style="@style/TextView"
-            android:singleLine="true"
-            android:background="@drawable/box_defocus_border"
-            android:hint="@string/username_hint"
-            android:textColorHint="@color/colorSubTextView"
-            android:layout_marginTop="40dp"
-            android:imeOptions="actionNext"/>
-        <EditText
             android:id="@+id/emailEdt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +32,7 @@
             android:background="@drawable/box_defocus_border"
             android:hint="@string/email_hint"
             android:textColorHint="@color/colorSubTextView"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:imeOptions="actionNext"/>
         <EditText
             android:id="@+id/passEdt"
@@ -59,6 +47,20 @@
             android:background="@drawable/box_defocus_border"
             android:layout_marginTop="10dp"
             android:imeOptions="actionNext"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/box_defocus_border"
+            android:layout_marginTop="10dp"
+            android:paddingRight="10dp">
+            <Spinner
+                android:id="@+id/typeSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                ></Spinner>
+        </LinearLayout>
+
         <EditText
             android:id="@+id/addressEdt"
             android:layout_width="match_parent"
@@ -71,6 +73,19 @@
             android:background="@drawable/box_defocus_border"
             android:layout_marginTop="10dp"
             android:imeOptions="actionNext"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/box_defocus_border"
+            android:layout_marginTop="10dp"
+            android:paddingRight="10dp">
+            <Spinner
+                android:id="@+id/districtSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                ></Spinner>
+        </LinearLayout>
         <EditText
             android:id="@+id/phoneEdt"
             android:layout_width="match_parent"

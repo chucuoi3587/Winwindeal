@@ -6,6 +6,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.TypedValue;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.math.BigInteger;
 import java.net.URL;
@@ -14,12 +18,19 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509TrustManager;
+
+import vn.winwindeal.android.app.Constant;
+import vn.winwindeal.android.app.GlobalSharedPreference;
+import vn.winwindeal.android.app.ProductDetailActivity;
+import vn.winwindeal.android.app.model.Product;
 
 /**
  * Created by nhannguyen on 4/6/2018.
@@ -111,4 +122,61 @@ public class CommonUtil {
         Resources r = context.getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
+
+    public static void addProductToCart(Context context, Product product) {
+        JSONObject json;
+        JSONObject quantityJson;
+        JSONArray jarray = new JSONArray();
+        product.quantity = 1;
+        HashMap<String, String> map = GlobalSharedPreference.getProductOrder(context);
+        try {
+            if (!map.get(Constant.ORDER).equals("") && !map.get(Constant.QUANTITY).equals("")) {
+                json = new JSONObject(map.get(Constant.ORDER));
+                quantityJson = new JSONObject(map.get(Constant.QUANTITY));
+                if (json != null) {
+                    jarray = json.optJSONArray(Constant.JSON_TAG_ORDER);
+                    boolean isExist = false;
+                    if (jarray.length() > 0) {
+                        for (int i = 0;i < jarray.length(); i++) {
+                            Product p = new Product(jarray.optJSONObject(i));
+                            if (p.product_id == product.product_id) {
+                                int quantity = quantityJson.getInt(String.valueOf(p.product_id));
+                                quantity += 1;
+                                quantityJson.put(String.valueOf(p.product_id), quantity);
+                                isExist = true;
+                                break;
+                            }
+                        }
+                    }
+                    map = new HashMap<>();
+                    if (isExist) {
+                        map.put(Constant.ORDER, json.toString());
+                        map.put(Constant.QUANTITY, quantityJson.toString());
+                    } else {
+                        jarray.put(product.parseToJson());
+                        json = new JSONObject();
+                        json.accumulate(Constant.JSON_TAG_ORDER, jarray);
+                        quantityJson.accumulate(String.valueOf(product.product_id), 1);
+                        map.put(Constant.QUANTITY, quantityJson.toString());
+                        map.put(Constant.ORDER, json.toString());
+                    }
+                    GlobalSharedPreference.saveProductOrder(context, map);
+                }
+            } else {
+                jarray.put(product.parseToJson());
+                json = new JSONObject();
+                json.accumulate(Constant.JSON_TAG_ORDER, jarray);
+                quantityJson = new JSONObject();
+                quantityJson.accumulate(String.valueOf(product.product_id), 1);
+                map = new HashMap<>();
+                map.put(Constant.QUANTITY, quantityJson.toString());
+                map.put(Constant.ORDER, json.toString());
+                GlobalSharedPreference.saveProductOrder(context, map);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

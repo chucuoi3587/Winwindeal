@@ -24,6 +24,7 @@ import vn.winwindeal.android.app.Constant;
 import vn.winwindeal.android.app.CreateEditProductActivity;
 import vn.winwindeal.android.app.GlobalSharedPreference;
 import vn.winwindeal.android.app.HomeActivity;
+import vn.winwindeal.android.app.OrderActivity;
 import vn.winwindeal.android.app.ProductDetailActivity;
 import vn.winwindeal.android.app.R;
 import vn.winwindeal.android.app.adapter.ProductListAdapter;
@@ -133,18 +134,27 @@ public class ProductListFragment extends Fragment implements View.OnClickListene
 
     public class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
 
+        private int mPosition;
+
         public MyMenuItemClickListener() {
 
         }
 
+        public void setPosition(int pos) {
+            this.mPosition = pos;
+        }
+
         @Override
         public boolean onMenuItemClick(MenuItem item) {
+            Product product = mProducts.get(mPosition);
             switch (item.getItemId()) {
                 case R.id.action_order:
-
+                    CommonUtil.addProductToCart(getActivity(), product);
+                    Intent intent = new Intent(getActivity(), OrderActivity.class);
+                    startActivity(intent);
                     return true;
                 case R.id.action_add_to_cart:
-
+                    CommonUtil.addProductToCart(getActivity(), product);
                     return true;
             }
             return false;
@@ -211,4 +221,5 @@ public class ProductListFragment extends Fragment implements View.OnClickListene
             }
         }
     }
+
 }
