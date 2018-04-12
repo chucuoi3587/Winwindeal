@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import vn.winwindeal.android.app.adapter.SpinnerAdapter;
 import vn.winwindeal.android.app.model.SpinnerObj;
 import vn.winwindeal.android.app.network.DataLoader;
@@ -58,30 +61,29 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         findViewById(R.id.registerBtn).setOnClickListener(this);
 
         mTypeSpinner = (Spinner) findViewById(R.id.typeSpinner);
-        SpinnerObj[] typeObjs = new SpinnerObj[2];
-        typeObjs[0] = new SpinnerObj(2, getResources().getString(R.string.staff_lbl));
-        typeObjs[1] = new SpinnerObj(3, getResources().getString(R.string.customer_lbl));
+        SpinnerObj[] typeObjs = new SpinnerObj[3];
+        try {
+            JSONObject rolesJson = new JSONObject(GlobalSharedPreference.getRoles(this));
+            for (int i = 0; i <= 2; i++) {
+                typeObjs[i] = new SpinnerObj(i + 1, rolesJson.optString(String.valueOf(i + 1)));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         typeAdapter = new SpinnerAdapter(this, android.R.layout.simple_list_item_1, typeObjs);
         mTypeSpinner.setAdapter(typeAdapter);
 
         mDistrictSpinner = (Spinner) findViewById(R.id.districtSpinner);
-        SpinnerObj[] districtObjs = new SpinnerObj[16];
-        districtObjs[0] = new SpinnerObj(1, "Quận 1");
-        districtObjs[1] = new SpinnerObj(2, "Quận 2");
-        districtObjs[2] = new SpinnerObj(3, "Quận 3");
-        districtObjs[3] = new SpinnerObj(4, "Quận 4");
-        districtObjs[4] = new SpinnerObj(5, "Quận 5");
-        districtObjs[5] = new SpinnerObj(6, "Quận 6");
-        districtObjs[6] = new SpinnerObj(7, "Quận 7");
-        districtObjs[7] = new SpinnerObj(8, "Quận 8");
-        districtObjs[8] = new SpinnerObj(9, "Quận 9");
-        districtObjs[9] = new SpinnerObj(10, "Quận 10");
-        districtObjs[10] = new SpinnerObj(11, "Quận 11");
-        districtObjs[11] = new SpinnerObj(12, "Quận 12");
-        districtObjs[12] = new SpinnerObj(13, "Quận Bình Thạnh");
-        districtObjs[13] = new SpinnerObj(14, "Quận Phú Nhuận");
-        districtObjs[14] = new SpinnerObj(15, "Quận Gò Vấp");
-        districtObjs[15] = new SpinnerObj(16, "Quận Tân Phú");
+        SpinnerObj[] districtObjs = new SpinnerObj[17];
+        JSONObject districtJson;
+        try {
+            districtJson = new JSONObject(GlobalSharedPreference.getDistricts(this));
+            for (int i = 0; i <= 16; i++) {
+                districtObjs[i] = new SpinnerObj(i, districtJson.optString(String.valueOf(i)));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         districtAdapter = new SpinnerAdapter(this, android.R.layout.simple_list_item_1, districtObjs);
         mDistrictSpinner.setAdapter(districtAdapter);
     }

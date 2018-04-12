@@ -33,9 +33,11 @@
             app:tabTextColor="@color/colorWhite60Transparent"
             app:tabIndicatorHeight="2dp"/>
     </android.support.design.widget.AppBarLayout>
-    <ListView
-        android:id="@+id/listView"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"></ListView>
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
 </LinearLayout>

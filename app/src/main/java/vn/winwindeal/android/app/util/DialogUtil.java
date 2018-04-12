@@ -124,7 +124,11 @@ public class DialogUtil {
             ((TextView) dialog.findViewById(R.id.noTv)).setText(context.getResources().getString(R.string.cancel_lbl).toUpperCase(Locale.US));
         }
 
-        ((TextView) dialog.findViewById(R.id.yesTv)).setTextColor(CommonUtil.getColor(context, R.color.colorPrimary));
+        if (isConfirmDelete) {
+            ((TextView) dialog.findViewById(R.id.yesTv)).setTextColor(CommonUtil.getColor(context, R.color.colorRed));
+        } else {
+            ((TextView) dialog.findViewById(R.id.yesTv)).setTextColor(CommonUtil.getColor(context, R.color.colorPrimary));
+        }
         dialog.setCancelable(false);
         dialog.show();
     }

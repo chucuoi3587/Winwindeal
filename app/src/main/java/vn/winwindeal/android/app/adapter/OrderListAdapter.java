@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import vn.winwindeal.android.app.R;
 import vn.winwindeal.android.app.model.Product;
+import vn.winwindeal.android.app.util.DialogUtil;
 import vn.winwindeal.android.app.util.FontUtil;
 
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
@@ -25,11 +26,20 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     private ArrayList<Product> mProducts;
     private JSONObject mQuantityJson;
     private Context mContext;
+    public boolean isEdit = false;
 
     public OrderListAdapter(Context context, ArrayList<Product> products, JSONObject quantity){
         this.mContext = context;
         this.mProducts = products;
         this.mQuantityJson = quantity;
+    }
+
+    public ArrayList<Product> getProducts() {
+        return mProducts;
+    }
+
+    public JSONObject getQuantityJson() {
+        return mQuantityJson;
     }
 
     @Override
@@ -40,7 +50,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Product p = mProducts.get(position);
         holder.nameTv.setText(p.product_name);
         if (p.price > 0) {
@@ -60,14 +70,24 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             public void onClick(View v) {
                 int i = Integer.parseInt(holder.quantityTv.getText().toString().trim());
                 if (i == 1) {
-                    return;
-                }
-                i -= 1;
-                holder.quantityTv.setText(String.valueOf(i));
-                try {
-                    mQuantityJson.put(String.valueOf(p.product_id), i);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    DialogUtil.showConfirmDialog(mContext, null, mContext.getResources().getString(R.string.remove_product_order_warning), null, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mProducts.remove(position);
+                            mQuantityJson.remove(String.valueOf(p.product_id));
+                            notifyDataSetChanged();
+                            isEdit = true;
+                        }
+                    }, null, true);
+                } else {
+                    i -= 1;
+                    holder.quantityTv.setText(String.valueOf(i));
+                    try {
+                        mQuantityJson.put(String.valueOf(p.product_id), i);
+                        isEdit = true;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -79,6 +99,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                 holder.quantityTv.setText(String.valueOf(i));
                 try {
                     mQuantityJson.put(String.valueOf(p.product_id), i);
+                    isEdit = true;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

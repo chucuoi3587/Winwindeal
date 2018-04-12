@@ -103,4 +103,30 @@ public class GlobalSharedPreference {
         map.put(Constant.ORDER, prefs.getString(Constant.JSON_TAG_ORDER, ""));
         return map;
     }
+
+    public static void saveDistricts(Context context, String  data) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(context.getResources().getString(R.string.app_name),
+                Context.MODE_PRIVATE).edit();
+        editor.putString(Constant.DISTRICTS, data);
+        editor.commit();
+    }
+
+    public static String getDistricts(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(context.getResources().getString(R.string.app_name),
+                Context.MODE_PRIVATE);
+        return prefs.getString(Constant.DISTRICTS, "");
+    }
+
+    public static void saveRoles(Context context, String data) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(context.getResources().getString(R.string.app_name),
+                Context.MODE_PRIVATE).edit();
+        editor.putString(Constant.ROLES, data);
+        editor.commit();
+    }
+
+    public static String getRoles(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(context.getResources().getString(R.string.app_name),
+                Context.MODE_PRIVATE);
+        return prefs.getString(Constant.ROLES, "");
+    }
 }

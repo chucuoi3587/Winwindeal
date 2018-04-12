@@ -38,6 +38,7 @@
     <string name="order_now">Đặt hàng ngay</string>
     <string name="confirm_order">XÁC NHẬN ĐẶT HÀNG</string>
     <string name="add_to_cart">Thêm vào giỏ hàng</string>
+    <string name="cart_lbl">Giỏ hàng</string>
     <string name="alive_lbl">Còn hàng</string>
     <string name="out_of_stock">Hết hàng</string>
     <string name="save_cap_lbl">LƯU</string>
@@ -51,4 +52,7 @@
     <string name="about_us">Về chúng tôi</string>
     <string name="contact_us">Liên hệ</string>
     <string name="order_history">Lịch sử đơn hàng</string>
+    <string name="remove_product_order_warning">Bạn có muốn xóa sản phẩm này khỏi giỏ hàng?</string>
+    <string name="user_not_active_warning_message">Tài khoản chưa được kích hoạt, vui lòng liên hệ Admin để được hỗ trợ vấn đề này!</string>
+    <string name="data_empty">(chưa cập nhật)</string>
 </resources>

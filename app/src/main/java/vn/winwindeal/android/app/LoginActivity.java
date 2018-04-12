@@ -137,6 +137,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 if (message.equals("password_wrong")) {
                     DialogUtil.showWarningDialog(LoginActivity.this, null, getResources().getString(R.string.login_fail),
                             null, Gravity.LEFT, false);
+                } else if (message.equals("not_active")) {
+                    DialogUtil.showWarningDialog(LoginActivity.this, null, getResources().getString(R.string.user_not_active_warning_message),
+                            null, Gravity.LEFT, false);
                 }
                 break;
         }

@@ -10,10 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import vn.winwindeal.android.app.AboutUsActivity;
 import vn.winwindeal.android.app.Constant;
+import vn.winwindeal.android.app.ContactUsActivity;
 import vn.winwindeal.android.app.GlobalSharedPreference;
 import vn.winwindeal.android.app.HomeActivity;
 import vn.winwindeal.android.app.LoginActivity;
+import vn.winwindeal.android.app.OrderActivity;
 import vn.winwindeal.android.app.R;
 import vn.winwindeal.android.app.model.UserInfo;
 import vn.winwindeal.android.app.network.DataLoader;
@@ -39,6 +42,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         mView.findViewById(R.id.logoutBtn).setOnClickListener(this);
         ui = GlobalSharedPreference.getUserInfo(getActivity());
         ((TextView) mView.findViewById(R.id.emailTv)).setText(ui.email);
+        mView.findViewById(R.id.aboutUsLayout).setOnClickListener(this);
+        mView.findViewById(R.id.contactUsLayout).setOnClickListener(this);
+        mView.findViewById(R.id.cartLayout).setOnClickListener(this);
+
+        if (ui.user_type == 1) {
+            mView.findViewById(R.id.cartLayout).setVisibility(View.GONE);
+            mView.findViewById(R.id.cartSeparate).setVisibility(View.GONE);
+            mView.findViewById(R.id.orderHistoryLayout).setVisibility(View.GONE);
+            mView.findViewById(R.id.orderHistorySeparate).setVisibility(View.GONE);
+        }
     }
 
     private DataLoader.DataLoaderInterface mHandler = new DataLoader.DataLoaderInterface() {
@@ -63,6 +76,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
+        Intent intent;
         switch (view.getId()) {
             case R.id.logoutBtn:
                 DialogUtil.showConfirmDialog(getActivity(), null, getResources().getString(R.string.log_out_warning_message), getResources().getString(R.string.ok_lbl), new View.OnClickListener() {
@@ -72,6 +86,18 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                         ((HomeActivity) getActivity()).showLoading();
                     }
                 }, getResources().getString(R.string.cancel_lbl), false);
+                break;
+            case R.id.aboutUsLayout:
+                intent = new Intent(getActivity(), AboutUsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.contactUsLayout:
+                intent = new Intent(getActivity(), ContactUsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.cartLayout:
+                intent = new Intent(getActivity(), OrderActivity.class);
+                startActivity(intent);
                 break;
         }
     }

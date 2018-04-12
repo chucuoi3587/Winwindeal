@@ -10,7 +10,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.net.URL;
 import java.security.MessageDigest;
@@ -179,4 +183,28 @@ public class CommonUtil {
         }
     }
 
+    /**
+     * Gets html content from the assets folder.
+     */
+    public static String getHtmlFromAsset(Context context, String name) {
+        InputStream is;
+        StringBuilder builder = new StringBuilder();
+        String htmlString = null;
+        try {
+            is = context.getAssets().open(name);
+            if (is != null) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line);
+                }
+
+                htmlString = builder.toString();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return htmlString;
+    }
 }

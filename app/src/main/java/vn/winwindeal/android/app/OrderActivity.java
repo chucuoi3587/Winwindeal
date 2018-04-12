@@ -1,5 +1,6 @@
 package vn.winwindeal.android.app;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -78,10 +79,44 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                if (mAdapter.isEdit) {
+                    new SaveOrderAsyncTask().execute();
+                } else {
+                    finish();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    class SaveOrderAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            ArrayList<Product> products = mAdapter.getProducts();
+            JSONArray jarray = new JSONArray();
+            for (Product p : products) {
+                JSONObject json = p.parseToJson();
+                jarray.put(json);
+            }
+            JSONObject json = new JSONObject();
+            try {
+                json.accumulate(Constant.JSON_TAG_ORDER, jarray);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            HashMap<String, String> map = new HashMap<>();
+            map.put(Constant.ORDER, json.toString());
+            map.put(Constant.QUANTITY, mAdapter.getQuantityJson().toString());
+            GlobalSharedPreference.saveProductOrder(OrderActivity.this, map);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            finish();
+        }
     }
 
     @Override

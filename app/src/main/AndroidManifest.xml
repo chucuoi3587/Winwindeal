@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/MyMaterialTheme" >
+        android:theme="@style/MyMaterialTheme"
+        android:name=".WinwindealApplication">
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,5 +25,7 @@
         <activity android:name=".CreateEditProductActivity"/>
         <activity android:name=".ProductDetailActivity"/>
         <activity android:name=".OrderActivity"/>
+        <activity android:name=".ContactUsActivity"/>
+        <activity android:name=".AboutUsActivity"/>
     </application>
 </manifest>
