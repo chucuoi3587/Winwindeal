@@ -8,6 +8,8 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -23,6 +25,7 @@ import vn.winwindeal.android.app.adapter.OrderListAdapter;
 import vn.winwindeal.android.app.model.Product;
 import vn.winwindeal.android.app.model.UserInfo;
 import vn.winwindeal.android.app.util.CommonUtil;
+import vn.winwindeal.android.app.util.FontUtil;
 
 public class OrderActivity extends BaseActivity implements View.OnClickListener{
 
@@ -44,6 +47,10 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener{
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        SpannableString ss = new SpannableString(getResources().getString(R.string.cart_lbl));
+        ss.setSpan(new RelativeSizeSpan(0.85f), 0, ss.length(), 0);
+        ss.setSpan(FontUtil.getFontAssets(this, FontUtil.ROBOTO_MEDIUM), 0, ss.length(), 0);
+        setTitle(ss);
 
         mProducts = new ArrayList<>();
         mAddressEdt = (EditText) findViewById(R.id.addressEdt);
@@ -79,7 +86,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (mAdapter.isEdit) {
+                if (mAdapter != null && mAdapter.isEdit) {
                     new SaveOrderAsyncTask().execute();
                 } else {
                     finish();

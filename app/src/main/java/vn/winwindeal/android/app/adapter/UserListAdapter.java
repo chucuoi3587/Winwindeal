@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -27,11 +28,17 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     private Context mContext;
     private JSONObject mDistrictJSON;
     public boolean isEdit = false;
+    private itemClickListener mlistener;
 
-    public UserListAdapter(Context context, ArrayList<UserInfo> users, int type){
+    public interface itemClickListener {
+        void onItemClickListener(int position);
+    }
+
+    public UserListAdapter(Context context, ArrayList<UserInfo> users, int type, itemClickListener listener){
         this.mContext = context;
         this.mUsers = users;
         this.mType = type;
+        this.mlistener = listener;
         try {
             mDistrictJSON = new JSONObject(GlobalSharedPreference.getDistricts(context));
         } catch (JSONException e) {
@@ -61,6 +68,12 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         if (!usr.avatar.equals("") && !usr.avatar.equals("null")) {
             Glide.with(mContext).load(usr.avatar).into(holder.avatar);
         }
+        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mlistener.onItemClickListener(position);
+            }
+        });
     }
 
     @Override
@@ -71,8 +84,10 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView avatar;
         public TextView emailTv, districtTv, phoneTv, addressTv;
+        LinearLayout mainLayout;
         public ViewHolder(View view, Context context) {
             super(view);
+            mainLayout = (LinearLayout) view.findViewById(R.id.mainLayout);
             avatar = (ImageView) view.findViewById(R.id.avatarImgv);
             emailTv = (TextView) view.findViewById(R.id.emailTv);
             districtTv = (TextView) view.findViewById(R.id.districtTv);

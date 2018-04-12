@@ -27,5 +27,6 @@
         <activity android:name=".OrderActivity"/>
         <activity android:name=".ContactUsActivity"/>
         <activity android:name=".AboutUsActivity"/>
+        <activity android:name=".UserDetailActivity"/>
     </application>
 </manifest>

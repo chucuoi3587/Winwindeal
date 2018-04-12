@@ -26,6 +26,7 @@ import vn.winwindeal.android.app.Constant;
 import vn.winwindeal.android.app.HomeActivity;
 import vn.winwindeal.android.app.OrderActivity;
 import vn.winwindeal.android.app.R;
+import vn.winwindeal.android.app.UserDetailActivity;
 import vn.winwindeal.android.app.adapter.UserListAdapter;
 import vn.winwindeal.android.app.model.UserInfo;
 import vn.winwindeal.android.app.network.DataLoader;
@@ -134,12 +135,21 @@ public class UsersFragment extends Fragment {
     };
 
     private void renderData() {
-//        if (mAdapter == null) {
-            mAdapter = new UserListAdapter(getActivity(), mUsers, mSearchType);
+        if (mAdapter == null) {
+            mAdapter = new UserListAdapter(getActivity(), mUsers, mSearchType, mListener);
             mRecyclerView.setAdapter(mAdapter);
-//        } else {
-//            mAdapter.notifyDataSetChanged();
-//        }
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
+    private UserListAdapter.itemClickListener mListener = new UserListAdapter.itemClickListener() {
+        @Override
+        public void onItemClickListener(int position) {
+            UserInfo usr = mUsers.get(position);
+            Intent intent = new Intent(getActivity(), UserDetailActivity.class);
+            intent.putExtra("user", usr);
+            startActivity(intent);
+        }
+    };
 }
