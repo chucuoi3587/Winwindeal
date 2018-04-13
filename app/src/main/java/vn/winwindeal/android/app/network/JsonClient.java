@@ -10,12 +10,14 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -37,6 +39,8 @@ public class JsonClient {
 	private List<NameValuePair> mListOfRequestProperty = null;
 	private int mReadTimeout;
 	private int mConnectTimeout;
+	private String mDataPath = "";
+	private String mDataKey = "";
 	public interface DataResponse {
 		void ResultData(int requestIndex);
 	}
@@ -66,6 +70,11 @@ public class JsonClient {
 		mListOfRequestProperty = requestProperties;
 		mReadTimeout = readTimeout;
 		mConnectTimeout = connectTimeout;
+	}
+
+	public void setDataPath(String path, String key) {
+		this.mDataPath = path;
+		this.mDataKey = key;
 	}
 
 	private int mRequestIndex;
@@ -109,9 +118,31 @@ public class JsonClient {
 			}
 		}
 		if (isGotOutPut(mRequestMethod)) {
-			RequestBody body = RequestBody.create(JSON, mBodyContent);
-			request.method(mRequestMethod, body);
-			request.post(body);
+			if (!mDataPath.equals("")) {
+				MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+				File f = new File(mDataPath);
+				builder.addFormDataPart(mDataKey, f.getName(), RequestBody.create(MediaType.parse("image/jpeg"), f));
+				if (!mBodyContent.equals("")) {
+					try {
+						JSONObject json = new JSONObject(mBodyContent);
+						Iterator<String> keys = json.keys();
+						while(keys.hasNext()) {
+							String key = keys.next();
+							Object value = json.opt(key);
+							builder.addFormDataPart(key, value instanceof String ? (String) value : String.valueOf(value));
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+				RequestBody body = builder.build();
+				request.post(body);
+				request.method(mRequestMethod, body);
+			} else {
+				RequestBody body = RequestBody.create(JSON, mBodyContent);
+				request.method(mRequestMethod, body);
+				request.post(body);
+			}
 		}
 
 		client.newCall(request.build()).enqueue(new Callback() {

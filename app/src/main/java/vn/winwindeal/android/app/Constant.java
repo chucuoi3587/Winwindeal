@@ -30,9 +30,15 @@ public class Constant {
     public final static String JSON_TAG_ACCESS_TOKEN = "session_token";
     public static final String JSON_TAG_ORDER = "orders";
     public static final String JSON_TAG_QUANTITY = "quantities";
+    public static final String JSON_TAG_AVATAR = "avatar";
+    public static final String JSON_TAG_ADDRESS = "address";
+    public static final String JSON_TAG_PHONE = "phone";
+    public static final String JSON_TAG_DISTRICT_ID = "district_id";
+    public static final String JSON_TAG_USER_STATUS = "user_status";
 
     public static final String DISTRICTS = "districts";
     public static final String ROLES ="roles";
+    public static final String USER_STATUS = "user_status";
     public static final String QUANTITY = "quantity";
     public static final String ORDER = "order";
 
@@ -44,6 +50,7 @@ public class Constant {
     public static final String API_EDIT_PRODUCT = "/product/edit";
     public static final String API_LIST_ALL_PRODUCT = "/product/listProduct";
     public static final String API_SEARCH_USER ="/user/search";
+    public static final String API_EDIT_USER = "/user/edit";
 
     public static final int REQUEST_API_REGISTER = 100;
     public static final int REQUEST_API_LOGIN = 101;
@@ -52,6 +59,7 @@ public class Constant {
     public static final int REQUEST_API_EDIT_PRODUCT = 104;
     public static final int REQUEST_API_LIST_ALL_PRODUCT = 105;
     public static final int REQUEST_API_SEARCH_USER = 106;
+    public static final int REQUEST_API_EDIT_USER = 107;
 
     public static final String SELECTED_PAGE = "selected_page";
     public static final int HOME_FRAGMENT = 0;
@@ -60,5 +68,7 @@ public class Constant {
 
     public static final int REQUEST_CREATE_PRODUCT = 1000;
     public static final int REQUEST_EDIT_PRODUCT = 1001;
+    public static final int REQUEST_EDIT_USER = 1002;
+    public static final int REQUEST_GET_IMAGE_CHOOSER_INTENT = 1003;
 
 }

@@ -2,6 +2,7 @@ package vn.winwindeal.android.app.util;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.TypedValue;
@@ -12,9 +13,12 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.URL;
 import java.security.MessageDigest;
@@ -183,28 +187,41 @@ public class CommonUtil {
         }
     }
 
-    /**
-     * Gets html content from the assets folder.
-     */
-    public static String getHtmlFromAsset(Context context, String name) {
-        InputStream is;
-        StringBuilder builder = new StringBuilder();
-        String htmlString = null;
+    public static String addBitmapToStorage(Context context, Bitmap bmp, String name) {
+        String result = "";
         try {
-            is = context.getAssets().open(name);
-            if (is != null) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
-                }
-
-                htmlString = builder.toString();
-            }
+            File dist = new File(getFileDir(context) + "/" + name);
+            OutputStream os = new FileOutputStream(dist);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            os.flush();
+            os.close();
+            result = dist.getPath();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return result;
+    }
 
-        return htmlString;
+    public static String getFileDir(Context context) {
+        File fileDir = new File(android.os.Environment.getExternalStorageDirectory(),
+                "Android/data/" + context.getPackageName() + "/files/");
+        if (!fileDir.exists()) {
+            fileDir.mkdirs();
+        }
+        return fileDir.getPath();
+    }
+
+    public static void clearFileDir(Context context) {
+        File fileDir = new File(android.os.Environment.getExternalStorageDirectory(),
+                "Android/data/" + context.getPackageName() + "/files/");
+        if (fileDir.exists()) {
+            File[] files = fileDir.listFiles();
+            for (int i = 0; i < files.length; i++) {
+                File file = files[i];
+                file.delete();
+            }
+        }
     }
 }

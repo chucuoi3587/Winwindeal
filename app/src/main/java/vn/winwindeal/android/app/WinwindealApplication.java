@@ -50,5 +50,16 @@ public class WinwindealApplication extends Application {
             }
             GlobalSharedPreference.saveRoles(this, json.toString());
         }
+        if (GlobalSharedPreference.getUserStatus(this).equals("")) {
+            JSONObject json = new JSONObject();
+            try {
+                json.accumulate("-1", "--User Status--");
+                json.accumulate("0", "Inactive");
+                json.accumulate("1", "Active");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            GlobalSharedPreference.saveUserStatus(this, json.toString());
+        }
     }
 }

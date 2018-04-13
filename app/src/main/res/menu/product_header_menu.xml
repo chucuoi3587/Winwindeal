@@ -10,5 +10,6 @@
         android:id="@+id/action_save"
         android:enabled="true"
         android:title="@string/save_cap_lbl"
+        android:icon="@drawable/icon_header_correct"
         app:showAsAction="ifRoom" />
 </menu>

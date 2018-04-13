@@ -38,6 +38,8 @@ public abstract class DataLoader {
 	public static boolean mIsAutoRenewConfirm = false;
 	public static int READ_TIMEOUT;
 	public static int CONNECT_TIMEOUT;
+	public String dataPath = "";
+	public String dataKey = "";
 
 	public static final int TEN_MINUTES = 1000 * 60 * 10;
 	public static final String GOOGLE_MAP_API = "http://www.google.com/glm/mmap";
@@ -131,6 +133,9 @@ public abstract class DataLoader {
 
 		mClient = new JsonClient(mContext, url, method,
 				requestProperty, content, READ_TIMEOUT, CONNECT_TIMEOUT);
+		if (!dataPath.equals("")) {
+			mClient.setDataPath(dataPath, dataKey);
+		}
 		mClient.setDataResponseCallback(requestIndex, new JsonClient.DataResponse() {
 			@Override
 			public void ResultData(final int requestIndex) {

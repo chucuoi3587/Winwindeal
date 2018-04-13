@@ -15,16 +15,17 @@
         android:gravity="center">
         <ImageView
             android:id="@+id/avatarImgv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_user"/>
+            android:layout_width="@dimen/avatar_width"
+            android:layout_height="@dimen/avatar_width"
+            android:src="@drawable/avatar"
+            android:scaleType="centerInside"/>
         <TextView
             android:id="@+id/emailTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/TextView"
             android:gravity="center"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="10dp"/>
 
         <Button
             android:id="@+id/logoutBtn"
@@ -36,101 +37,107 @@
             android:layout_marginTop="10dp"/>
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_margin="20dp"
-        android:background="@drawable/blue_stroke_border_bg"
-        android:gravity="center">
+        android:layout_height="0dp"
+        android:layout_weight="1">
         <LinearLayout
-            android:id="@+id/cartLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/blue_stroke_border_bg"
             android:gravity="center">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <LinearLayout
+                android:id="@+id/cartLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/TextView"
-                android:text="@string/cart_lbl"/>
-            <ImageView
-                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView"
+                    android:text="@string/cart_lbl"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/arrow_right"/>
+            </LinearLayout>
+            <View
+                android:id="@+id/cartSeparate"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+            <LinearLayout
+                android:id="@+id/orderHistoryLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/arrow_right"/>
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView"
+                    android:text="@string/order_history"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/arrow_right"/>
+            </LinearLayout>
+            <View
+                android:id="@+id/orderHistorySeparate"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+            <LinearLayout
+                android:id="@+id/contactUsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView"
+                    android:text="@string/contact_us"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/arrow_right"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+            <LinearLayout
+                android:id="@+id/aboutUsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView"
+                    android:text="@string/about_us"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/arrow_right"/>
+            </LinearLayout>
         </LinearLayout>
-        <View
-            android:id="@+id/cartSeparate"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_color"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
-        <LinearLayout
-            android:id="@+id/orderHistoryLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                style="@style/TextView"
-                android:text="@string/order_history"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/arrow_right"/>
-        </LinearLayout>
-        <View
-            android:id="@+id/orderHistorySeparate"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_color"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
-        <LinearLayout
-            android:id="@+id/contactUsLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                style="@style/TextView"
-                android:text="@string/contact_us"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/arrow_right"/>
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_color"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
-        <LinearLayout
-            android:id="@+id/aboutUsLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                style="@style/TextView"
-                android:text="@string/about_us"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/arrow_right"/>
-        </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

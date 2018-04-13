@@ -19,7 +19,7 @@ public class UserInfo implements Parcelable{
     public int district_id;
     public String phone;
     public int status;
-    public String avatar;
+    public String avatar = "";
 
     public UserInfo() {
 

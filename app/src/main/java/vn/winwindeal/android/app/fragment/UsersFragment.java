@@ -2,6 +2,7 @@ package vn.winwindeal.android.app.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import vn.winwindeal.android.app.Constant;
+import vn.winwindeal.android.app.GlobalSharedPreference;
 import vn.winwindeal.android.app.HomeActivity;
 import vn.winwindeal.android.app.OrderActivity;
 import vn.winwindeal.android.app.R;
@@ -43,6 +45,7 @@ public class UsersFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private UserListAdapter mAdapter;
     private int mSearchType = 0; // 0 is staff | 1 is customer
+    UserInfo ui;
 
     @Nullable
     @Override
@@ -59,6 +62,8 @@ public class UsersFragment extends Fragment {
         SpannableString ss = new SpannableString(getResources().getString(R.string.user_manage));
         ss.setSpan(new RelativeSizeSpan(0.85f), 0, ss.length(), 0);
         ((AppCompatActivity) getActivity()).setTitle(ss);
+
+        ui = GlobalSharedPreference.getUserInfo(getActivity());
         tabLayout = (TabLayout) mView.findViewById(R.id.tabs);
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.staff_lbl)));
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.customer_lbl)));
@@ -149,6 +154,7 @@ public class UsersFragment extends Fragment {
             UserInfo usr = mUsers.get(position);
             Intent intent = new Intent(getActivity(), UserDetailActivity.class);
             intent.putExtra("user", usr);
+            intent.putExtra("is_editable", ui.user_type == 1 ? true : false);
             startActivity(intent);
         }
     };
