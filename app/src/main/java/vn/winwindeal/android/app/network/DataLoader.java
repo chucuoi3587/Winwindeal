@@ -38,6 +38,7 @@ public abstract class DataLoader {
 	public static boolean mIsAutoRenewConfirm = false;
 	public static int READ_TIMEOUT;
 	public static int CONNECT_TIMEOUT;
+	public boolean isUploadFile = false;
 	public String dataPath = "";
 	public String dataKey = "";
 
@@ -133,8 +134,8 @@ public abstract class DataLoader {
 
 		mClient = new JsonClient(mContext, url, method,
 				requestProperty, content, READ_TIMEOUT, CONNECT_TIMEOUT);
-		if (!dataPath.equals("")) {
-			mClient.setDataPath(dataPath, dataKey);
+		if (isUploadFile) {
+			mClient.setDataPath(isUploadFile, dataPath, dataKey);
 		}
 		mClient.setDataResponseCallback(requestIndex, new JsonClient.DataResponse() {
 			@Override

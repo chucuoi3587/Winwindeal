@@ -154,4 +154,17 @@ public class GlobalSharedPreference {
                 Context.MODE_PRIVATE);
         return prefs.getString(Constant.USER_STATUS, "");
     }
+
+    public static void saveDeviceId(Context context, String deviceID) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(context.getResources().getString(R.string.app_name),
+                Context.MODE_PRIVATE).edit();
+        editor.putString(Constant.DEVICE_ID_TAG, deviceID);
+        editor.commit();
+    }
+
+    public static String getDeviceId(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(context.getResources().getString(R.string.app_name),
+                Context.MODE_PRIVATE);
+        return prefs.getString(Constant.DEVICE_ID_TAG, "");
+    }
 }

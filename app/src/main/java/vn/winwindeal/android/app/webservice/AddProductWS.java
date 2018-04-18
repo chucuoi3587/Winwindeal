@@ -36,6 +36,7 @@ public class AddProductWS extends DataLoader {
         this.mPrice = price;
         this.mOrigin = origin;
         this.mThumbnail = thumbnail;
+        isUploadFile = true;
         checkSessionTokenAndBuildRequest();
     }
 
@@ -48,7 +49,10 @@ public class AddProductWS extends DataLoader {
             json.accumulate("name", mName);
             json.accumulate("price", String.valueOf(mPrice));
             json.accumulate("origin", mOrigin);
-            json.accumulate("thumbnail", mThumbnail);
+            if (mThumbnail != null && !mThumbnail.equals("")) {
+                dataPath = mThumbnail;
+                dataKey = "thumbnail";
+            }
 
             StringBuilder query = new StringBuilder(api + Constant.API_ADD_PRODUCT);
 

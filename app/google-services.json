@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "119285597934",
+    "firebase_url": "https://winwindeal-70732.firebaseio.com",
+    "project_id": "winwindeal-70732",
+    "storage_bucket": "winwindeal-70732.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119285597934:android:f3f843cb6d0dba3a",
+        "android_client_info": {
+          "package_name": "vn.winwindeal.android.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "119285597934-t1j5thpq3fdstq15nlblrd52q5hh16nc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2f4ZxvCeVkkaHwr4GTlcfC2A_Hcm7ahs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -34,7 +34,9 @@ public class Constant {
     public static final String JSON_TAG_ADDRESS = "address";
     public static final String JSON_TAG_PHONE = "phone";
     public static final String JSON_TAG_DISTRICT_ID = "district_id";
-    public static final String JSON_TAG_USER_STATUS = "user_status";
+    public static final String JSON_TAG_USER_STATUS = "status";
+
+    public final static String DEVICE_ID_TAG = "device_id";
 
     public static final String DISTRICTS = "districts";
     public static final String ROLES ="roles";

@@ -39,6 +39,7 @@ public class JsonClient {
 	private List<NameValuePair> mListOfRequestProperty = null;
 	private int mReadTimeout;
 	private int mConnectTimeout;
+	private boolean mIsUploadFile = false;
 	private String mDataPath = "";
 	private String mDataKey = "";
 	public interface DataResponse {
@@ -72,7 +73,8 @@ public class JsonClient {
 		mConnectTimeout = connectTimeout;
 	}
 
-	public void setDataPath(String path, String key) {
+	public void setDataPath(boolean isUploadFile, String path, String key) {
+		this.mIsUploadFile = isUploadFile;
 		this.mDataPath = path;
 		this.mDataKey = key;
 	}
@@ -118,10 +120,12 @@ public class JsonClient {
 			}
 		}
 		if (isGotOutPut(mRequestMethod)) {
-			if (!mDataPath.equals("")) {
+			if (mIsUploadFile) {
 				MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-				File f = new File(mDataPath);
-				builder.addFormDataPart(mDataKey, f.getName(), RequestBody.create(MediaType.parse("image/jpeg"), f));
+				if (!mDataPath.equals("")) {
+					File f = new File(mDataPath);
+					builder.addFormDataPart(mDataKey, f.getName(), RequestBody.create(MediaType.parse("image/jpeg"), f));
+				}
 				if (!mBodyContent.equals("")) {
 					try {
 						JSONObject json = new JSONObject(mBodyContent);

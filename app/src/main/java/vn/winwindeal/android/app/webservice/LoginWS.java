@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vn.winwindeal.android.app.Constant;
+import vn.winwindeal.android.app.GlobalSharedPreference;
 import vn.winwindeal.android.app.network.DataLoader;
 
 public class LoginWS extends DataLoader {
@@ -42,6 +43,7 @@ public class LoginWS extends DataLoader {
             JSONObject json = new JSONObject();
             json.accumulate("email", mEmail);
             json.accumulate("password", mPassword);
+            json.accumulate("fcm_token", GlobalSharedPreference.getDeviceId(mContext));
 
             StringBuilder query = new StringBuilder(api + Constant.API_LOGIN);
 

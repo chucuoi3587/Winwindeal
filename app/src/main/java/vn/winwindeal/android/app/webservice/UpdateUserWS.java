@@ -37,6 +37,7 @@ public class UpdateUserWS extends DataLoader {
         this.mDistrictId = district_id;
         this.mThumbnail = thumbnail;
         this.mUserId = userId;
+        isUploadFile = true;
         checkSessionTokenAndBuildRequest();
     }
 
