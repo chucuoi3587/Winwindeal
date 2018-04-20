@@ -33,34 +33,6 @@
                 android:layout_marginTop="15dp"
                 android:src="@drawable/picture" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/thumbnailEdt"
-                    style="@style/TextView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/box_defocus_border"
-                    android:hint="@string/product_thumbnail_hint"
-                    android:singleLine="true"
-                    android:imeOptions="actionNext"
-                    android:textColorHint="@color/colorSubTextView" />
-
-                <ImageView
-                    android:id="@+id/resetIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="5dp"
-                    android:src="@drawable/reset"
-                    android:tint="@color/colorPrimaryDark" />
-            </LinearLayout>
-
             <EditText
                 android:id="@+id/productNameEdt"
                 style="@style/TextView"

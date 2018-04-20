@@ -4,6 +4,7 @@
     <string name="email_hint">Email</string>
     <string name="password_hint">Mật khẩu</string>
     <string name="address_hint">Địa chỉ</string>
+    <string name="address_warning">Xin vui lòng nhập vào địa chỉ nhận hàng.</string>
     <string name="phone_hint">Số điện thoại</string>
     <string name="login_cap_lbl">ĐĂNG NHẬP</string>
     <string name="login_or_lbl">-- Hay --</string>
@@ -59,4 +60,6 @@
     <string name="select_source">Chọn nguồn ...</string>
     <string name="update_user_failed">Cập nhật không thành công!</string>
     <string name="update_user_successfully">Cập nhật thành công!</string>
+    <string name="add_order_successfully">Tạo đơn hàng thành công! Xin vui lòng chờ ít phút, nhân viên kinh doanh sẽ liên hệ trực tiếp với quý khách!</string>
+    <string name="add_order_failed">Tạo đơn hàng thất bại, xin vui lòng kiểm tra lại sản phẩm trong giỏ hàng.</string>
 </resources>

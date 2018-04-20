@@ -14,6 +14,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import vn.winwindeal.android.app.AboutUsActivity;
 import vn.winwindeal.android.app.Constant;
 import vn.winwindeal.android.app.ContactUsActivity;
@@ -27,11 +30,13 @@ import vn.winwindeal.android.app.model.UserInfo;
 import vn.winwindeal.android.app.network.DataLoader;
 import vn.winwindeal.android.app.util.DialogUtil;
 import vn.winwindeal.android.app.webservice.LogoutWS;
+import vn.winwindeal.android.app.webservice.SearchUserWS;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener{
 
     private View mView;
     private LogoutWS mLogoutWs;
+    private SearchUserWS mSearchUserWs;
     private ImageView mAvatar;
     UserInfo ui;
 
@@ -45,8 +50,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
     private void initComponents(){
         mLogoutWs = new LogoutWS(getActivity(), mHandler);
+        mSearchUserWs = new SearchUserWS(getActivity(), mHandler);
         mView.findViewById(R.id.logoutBtn).setOnClickListener(this);
         ui = GlobalSharedPreference.getUserInfo(getActivity());
+        JSONArray jsonArray = new JSONArray();
+        mSearchUserWs.doSearch(null, jsonArray.put(ui.user_id));
+        ((HomeActivity) getActivity()).showLoading();
         ((TextView) mView.findViewById(R.id.emailTv)).setText(ui.email);
         mAvatar = (ImageView) mView.findViewById(R.id.avatarImgv);
         mView.findViewById(R.id.aboutUsLayout).setOnClickListener(this);
@@ -61,9 +70,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             mView.findViewById(R.id.orderHistoryLayout).setVisibility(View.GONE);
             mView.findViewById(R.id.orderHistorySeparate).setVisibility(View.GONE);
         }
-        if (!ui.avatar.equals("") && !ui.avatar.equals("null")) {
-            Glide.with(getActivity()).load(ui.avatar).into(mAvatar);
-        }
     }
 
     private DataLoader.DataLoaderInterface mHandler = new DataLoader.DataLoaderInterface() {
@@ -76,6 +82,26 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);
                     getActivity().finishAffinity();
+                    break;
+                case Constant.REQUEST_API_SEARCH_USER:
+                    if (result instanceof JSONObject) {
+                        JSONArray jarray = ((JSONObject) result).optJSONArray("data");
+                        if (jarray != null && jarray.length() > 0) {
+                            for (int i = 0; i < jarray.length(); i++) {
+                                UserInfo usrInfo = new UserInfo(jarray.optJSONObject(i));
+                                if (usrInfo != null) {
+                                    ui.address = usrInfo.address;
+                                    ui.phone = usrInfo.phone;
+                                    ui.avatar = usrInfo.avatar;
+                                    GlobalSharedPreference.login(getActivity(), ui);
+                                    break;
+                                }
+                            }
+                            if (!ui.avatar.equals("") && !ui.avatar.equals("null")) {
+                                Glide.with(getActivity()).load(ui.avatar).into(mAvatar);
+                            }
+                        }
+                    }
                     break;
             }
         }

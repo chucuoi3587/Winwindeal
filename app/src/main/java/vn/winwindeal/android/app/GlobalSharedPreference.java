@@ -116,6 +116,14 @@ public class GlobalSharedPreference {
         return map;
     }
 
+    public static void clearProductOrder(Context context) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(context.getResources().getString(R.string.app_name),
+                Context.MODE_PRIVATE).edit();
+        editor.putString(Constant.JSON_TAG_ORDER, "");
+        editor.putString(Constant.JSON_TAG_QUANTITY, "");
+        editor.commit();
+    }
+
     public static void saveDistricts(Context context, String  data) {
         SharedPreferences.Editor editor = context.getSharedPreferences(context.getResources().getString(R.string.app_name),
                 Context.MODE_PRIVATE).edit();

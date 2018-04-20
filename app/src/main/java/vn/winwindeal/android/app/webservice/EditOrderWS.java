@@ -19,24 +19,27 @@ import vn.winwindeal.android.app.GlobalSharedPreference;
 import vn.winwindeal.android.app.model.UserInfo;
 import vn.winwindeal.android.app.network.DataLoader;
 
-public class AddOrderWS extends DataLoader {
+public class EditOrderWS extends DataLoader {
 
     private String mAddress, mPhone;
+    private int mOrderId, mOrderStatusId;
     private JSONArray mProducts;
     private DataLoaderInterface mHandler;
 
-    public AddOrderWS(Context context) {
+    public EditOrderWS(Context context) {
         super(context);
     }
-    public AddOrderWS(Context context, DataLoaderInterface handler) {
+    public EditOrderWS(Context context, DataLoaderInterface handler) {
         super(context);
         this.mHandler = handler;
     }
 
-    public void doAddOrder(String address, String phone, JSONArray products) {
+    public void doEditOrder(String address, String phone, JSONArray products, int orderId, int orderStatusId) {
         this.mAddress = address;
         this.mPhone = phone;
         this.mProducts = products;
+        this.mOrderId = orderId;
+        this.mOrderStatusId = orderStatusId;
         checkSessionTokenAndBuildRequest();
     }
 
@@ -49,14 +52,16 @@ public class AddOrderWS extends DataLoader {
             json.accumulate("session_token", ui.access_token);
             json.accumulate("address", mAddress);
             json.accumulate("phone", mPhone);
+            json.accumulate("order_id", mOrderId);
+            json.accumulate("order_status_id", mOrderStatusId);
             json.accumulate("products", mProducts);
 
-            StringBuilder query = new StringBuilder(api + Constant.API_ORDER_ADD);
+            StringBuilder query = new StringBuilder(api + Constant.API_ORDER_EDIT);
 
-            Log.d("TAG", "TEST WSAddOrder " + query.toString());
+            Log.d("TAG", "TEST WSEditOrder " + query.toString());
 
             URL url = new URL(query.toString());
-            execute(Constant.POST_REQUEST, Constant.REQUEST_API_ORDER_ADD,
+            execute(Constant.POST_REQUEST, Constant.REQUEST_API_ORDER_EDIT,
                     paramsSearch, json.toString(), url);
 
         } catch (MalformedURLException e) {

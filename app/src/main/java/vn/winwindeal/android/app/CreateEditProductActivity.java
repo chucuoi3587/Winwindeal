@@ -1,5 +1,8 @@
 package vn.winwindeal.android.app;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -28,7 +31,9 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
 
     Toolbar toolbar;
     private AddProductWS mAddProductWs;
-    private EditText mNameEdt, mCodeEdt, mThumbnailEdt, mPriceEdt, mOriginEdt, mQuantityEdt, mDescriptionEdt;
+    private EditText mNameEdt, mCodeEdt,  mPriceEdt, mOriginEdt, mQuantityEdt, mDescriptionEdt;
+    private ImageView mThumbnailImgv;
+    private String mThumbnail = "";
     boolean isLock = false;
     boolean isEdit = false;
     Product product;
@@ -50,7 +55,9 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
         mCodeEdt = (EditText) findViewById(R.id.productCodeEdt);
         mPriceEdt = (EditText) findViewById(R.id.productPriceEdt);
         mOriginEdt = (EditText) findViewById(R.id.productOriginEdt);
-        mThumbnailEdt = (EditText) findViewById(R.id.thumbnailEdt);
+        mThumbnailImgv = (ImageView) findViewById(R.id.thumbnailImgv);
+        mQuantityEdt = (EditText) findViewById(R.id.quantityEdt);
+        mDescriptionEdt = (EditText) findViewById(R.id.productPriceEdt);
 
         product = getIntent().getParcelableExtra("product");
         if (product != null) {
@@ -59,24 +66,13 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
             mCodeEdt.setText(product.code);
             mPriceEdt.setText(String.valueOf(product.price));
             mOriginEdt.setText(product.product_origin);
-            mThumbnailEdt.setText(product.thumbnail);
             Glide.with(CreateEditProductActivity.this).load(product.thumbnail).into((ImageView) findViewById(R.id.thumbnailImgv));
         } else {
             isEdit = false;
         }
 
         mAddProductWs = new AddProductWS(this);
-        findViewById(R.id.resetIcon).setOnClickListener(this);
-        mThumbnailEdt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                    Glide.with(CreateEditProductActivity.this).load(mThumbnailEdt.getText().toString().trim()).into((ImageView) findViewById(R.id.thumbnailImgv));
-                    return true;
-                }
-                return false;
-            }
-        });
+        mThumbnailImgv.setOnClickListener(this);
     }
 
     @Override
@@ -105,11 +101,13 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
         String strName = mNameEdt.getText().toString().trim();
         String strCode = mCodeEdt.getText().toString().trim();
         String strOrigin = mOriginEdt.getText().toString().trim();
-        String strThumbnail = mThumbnailEdt.getText().toString().trim();
+        String strThumbnail = mThumbnail;
         String strPrice = mPriceEdt.getText().toString().trim();
+        String description = mDescriptionEdt.getText().toString().trim();
+        int quantity = mQuantityEdt.getText().toString().trim().equals("") ? 0 : Integer.parseInt(mQuantityEdt.getText().toString().trim());
         if (!strName.equals("") && !strCode.equals("") && !strOrigin.equals("") && !strThumbnail.equals("")) {
             isLock = true;
-            mAddProductWs.doAddProduct(strCode, strName, !strPrice.equals("") ? Double.parseDouble(strPrice) : 0, strOrigin, strThumbnail);
+            mAddProductWs.doAddProduct(strCode, strName, !strPrice.equals("") ? Double.parseDouble(strPrice) : 0, strOrigin, strThumbnail, quantity, description);
             showLoading();
         } else {
 
@@ -153,10 +151,24 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.resetIcon:
-                String link = mThumbnailEdt.getText().toString().trim();
-                if (!link.equals("")) {
-                    Glide.with(CreateEditProductActivity.this).load(link).into((ImageView) findViewById(R.id.thumbnailImgv));
+            case R.id.thumbnailImgv:
+                Intent intent = new Intent(CreateEditProductActivity.this, MyCropImageActivity.class);
+                startActivityForResult(intent, Constant.REQUEST_GET_IMAGE_CHOOSER_INTENT);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case Constant.REQUEST_GET_IMAGE_CHOOSER_INTENT:
+                if (resultCode == RESULT_OK) {
+                    mThumbnail = data.getStringExtra("path");
+                    Bitmap bmp = BitmapFactory.decodeFile(mThumbnail);
+                    if (bmp != null) {
+                        mThumbnailImgv.setImageBitmap(bmp);
+                    }
                 }
                 break;
         }

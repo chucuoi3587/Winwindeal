@@ -53,6 +53,8 @@ public class Constant {
     public static final String API_LIST_ALL_PRODUCT = "/product/listProduct";
     public static final String API_SEARCH_USER ="/user/search";
     public static final String API_EDIT_USER = "/user/edit";
+    public static final String API_ORDER_ADD = "/order/add";
+    public static final String API_ORDER_EDIT = "/order/edit";
 
     public static final int REQUEST_API_REGISTER = 100;
     public static final int REQUEST_API_LOGIN = 101;
@@ -62,6 +64,8 @@ public class Constant {
     public static final int REQUEST_API_LIST_ALL_PRODUCT = 105;
     public static final int REQUEST_API_SEARCH_USER = 106;
     public static final int REQUEST_API_EDIT_USER = 107;
+    public static final int REQUEST_API_ORDER_ADD = 108;
+    public static final int REQUEST_API_ORDER_EDIT = 109;
 
     public static final String SELECTED_PAGE = "selected_page";
     public static final int HOME_FRAGMENT = 0;

@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import vn.winwindeal.android.app.model.UserInfo;
@@ -75,8 +76,7 @@ public class MyCropImageActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.action_save:
                 if (mCroppedBmp != null) {
-                    UserInfo ui = GlobalSharedPreference.getUserInfo(MyCropImageActivity.this);
-                    String path = CommonUtil.addBitmapToStorage(MyCropImageActivity.this, mCroppedBmp, ui.email + "_avatar.jpg");
+                    String path = CommonUtil.addBitmapToStorage(MyCropImageActivity.this, mCroppedBmp, String.valueOf(new Date().getTime()) + ".jpg");
                     Intent intent = new Intent();
                     intent.putExtra("path", path);
                     setResult(RESULT_OK, intent);

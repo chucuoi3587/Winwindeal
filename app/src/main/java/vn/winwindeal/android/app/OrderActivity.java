@@ -1,5 +1,6 @@
 package vn.winwindeal.android.app;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -24,16 +26,22 @@ import java.util.HashMap;
 import vn.winwindeal.android.app.adapter.OrderListAdapter;
 import vn.winwindeal.android.app.model.Product;
 import vn.winwindeal.android.app.model.UserInfo;
+import vn.winwindeal.android.app.network.DataLoader;
 import vn.winwindeal.android.app.util.CommonUtil;
+import vn.winwindeal.android.app.util.DialogUtil;
 import vn.winwindeal.android.app.util.FontUtil;
+import vn.winwindeal.android.app.webservice.AddOrderWS;
+import vn.winwindeal.android.app.webservice.SearchUserWS;
 
-public class OrderActivity extends BaseActivity implements View.OnClickListener{
+public class OrderActivity extends BaseActivity implements View.OnClickListener, DataLoader.DataLoaderInterface{
 
     Toolbar toolbar;
     private EditText mAddressEdt;
     private RecyclerView mRecyclerView;
     private OrderListAdapter mAdapter;
     private ArrayList<Product> mProducts;
+    private AddOrderWS mAddOrderWs;
+    private SearchUserWS mSearchUserWs;
     UserInfo ui;
 
     @Override
@@ -75,11 +83,13 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener{
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        mAddOrderWs = new AddOrderWS(this);
+        mSearchUserWs = new SearchUserWS(this);
+        JSONArray jsonArray = new JSONArray();
+        mSearchUserWs.doSearch(null, jsonArray.put(GlobalSharedPreference.getUserInfo(this).user_id));
+        showLoading();
 
-        ui = GlobalSharedPreference.getUserInfo(this);
-        if (ui.address != null && !ui.address.equals("")) {
-            mAddressEdt.setText(ui.address);
-        }
+        findViewById(R.id.confirmOrderBtn).setOnClickListener(this );
     }
 
     @Override
@@ -94,6 +104,47 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener{
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void loadDataDone(int requestIndex, int resultCode, Object result) {
+        hideLoading();
+        switch (requestIndex) {
+            case Constant.REQUEST_API_ORDER_ADD:
+                String message = ((JSONObject) result).optString("message", "");
+                if (message.equals("successful")) {
+                    DialogUtil.showWarningDialog(OrderActivity.this, null, getString(R.string.add_order_successfully), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            GlobalSharedPreference.clearProductOrder(OrderActivity.this);
+                            Intent intent = new Intent(OrderActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                            finishAffinity();
+                        }
+                    }, Gravity.LEFT, false);
+                } else {
+                    DialogUtil.showWarningDialog(OrderActivity.this, null, getString(R.string.add_order_failed), null, Gravity.LEFT, false);
+                }
+                break;
+            case Constant.REQUEST_API_SEARCH_USER:
+                if (result instanceof JSONObject) {
+                    JSONArray jarray = ((JSONObject) result).optJSONArray("data");
+                    if (jarray != null && jarray.length() > 0) {
+                        for (int i = 0; i < jarray.length(); i++) {
+                            ui = new UserInfo(jarray.optJSONObject(i));
+                        }
+                    }
+                    if (ui.address != null && !ui.address.equals("")) {
+                        mAddressEdt.setText(ui.address);
+                    }
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void loadDataFail(int requestIndex, int resultCode, Object result) {
+        hideLoading();
     }
 
     class SaveOrderAsyncTask extends AsyncTask<Void, Void, Void> {
@@ -130,8 +181,35 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.confirmOrderBtn:
-
+                String address = mAddressEdt.getText().toString();
+                if (!address.equals("")) {
+                    showLoading();
+                    new CreatOrderAsyncTask().execute();
+                } else {
+                    DialogUtil.showWarningDialog(OrderActivity.this, null, getString(R.string.address_warning), null, Gravity.LEFT, false);
+                }
                 break;
+        }
+    }
+
+    class CreatOrderAsyncTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            JSONObject jsonQty = mAdapter.getQuantityJson();
+            ArrayList<Product> products = mAdapter.getProducts();
+            JSONArray jarray = new JSONArray();
+            for (Product p : products) {
+                try {
+                    p.quantity = jsonQty.getInt(String.valueOf(p.product_id));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                JSONObject json = p.parseToJson();
+                jarray.put(json);
+            }
+            String address = mAddressEdt.getText().toString();
+            mAddOrderWs.doAddOrder(address, ui.phone, jarray);
+            return null;
         }
     }
 }

@@ -18,8 +18,9 @@ import vn.winwindeal.android.app.network.DataLoader;
 
 public class AddProductWS extends DataLoader {
 
-    private String mCode, mName, mOrigin, mThumbnail;
+    private String mCode, mName, mOrigin, mThumbnail, mDescription;
     private Double mPrice;
+    private int mQuantity;
     private DataLoaderInterface mHandler;
 
     public AddProductWS(Context context) {
@@ -30,12 +31,14 @@ public class AddProductWS extends DataLoader {
         this.mHandler = handler;
     }
 
-    public void doAddProduct(String code, String name, double price, String origin, String thumbnail) {
+    public void doAddProduct(String code, String name, double price, String origin, String thumbnail, int quantity, String description) {
         this.mCode = code;
         this.mName = name;
         this.mPrice = price;
         this.mOrigin = origin;
         this.mThumbnail = thumbnail;
+        this.mQuantity = quantity;
+        this.mDescription = description;
         isUploadFile = true;
         checkSessionTokenAndBuildRequest();
     }
@@ -49,6 +52,8 @@ public class AddProductWS extends DataLoader {
             json.accumulate("name", mName);
             json.accumulate("price", String.valueOf(mPrice));
             json.accumulate("origin", mOrigin);
+            json.accumulate("quantity", mOrigin);
+            json.accumulate("description", mOrigin);
             if (mThumbnail != null && !mThumbnail.equals("")) {
                 dataPath = mThumbnail;
                 dataKey = "thumbnail";
