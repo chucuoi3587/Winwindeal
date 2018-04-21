@@ -67,6 +67,8 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         holder.districtTv.setText(mDistrictJSON.optString(String.valueOf(usr.district_id)));
         if (!usr.avatar.equals("") && !usr.avatar.equals("null")) {
             Glide.with(mContext).load(usr.avatar).into(holder.avatar);
+        } else {
+            holder.avatar.setImageResource(R.drawable.avatar);
         }
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override

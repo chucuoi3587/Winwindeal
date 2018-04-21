@@ -57,7 +57,7 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
         mOriginEdt = (EditText) findViewById(R.id.productOriginEdt);
         mThumbnailImgv = (ImageView) findViewById(R.id.thumbnailImgv);
         mQuantityEdt = (EditText) findViewById(R.id.quantityEdt);
-        mDescriptionEdt = (EditText) findViewById(R.id.productPriceEdt);
+        mDescriptionEdt = (EditText) findViewById(R.id.descriptionEdt);
 
         product = getIntent().getParcelableExtra("product");
         if (product != null) {
@@ -66,6 +66,8 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
             mCodeEdt.setText(product.code);
             mPriceEdt.setText(String.valueOf(product.price));
             mOriginEdt.setText(product.product_origin);
+            mQuantityEdt.setText(String.valueOf(product.quantity));
+            mDescriptionEdt.setText(product.description);
             Glide.with(CreateEditProductActivity.this).load(product.thumbnail).into((ImageView) findViewById(R.id.thumbnailImgv));
         } else {
             isEdit = false;

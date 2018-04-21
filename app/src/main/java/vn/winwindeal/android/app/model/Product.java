@@ -16,6 +16,8 @@ public class Product implements Parcelable{
     public String code;
     public String description;
     public int quantity;
+    public int available_qty;
+    public int pending_qty;
     public double price;
     public String product_origin;
     public String thumbnail;
@@ -46,7 +48,7 @@ public class Product implements Parcelable{
             json.accumulate("price", price);
             json.accumulate("code", code);
             json.accumulate("origin", product_origin);
-            json.accumulate("thumnail", thumbnail);
+            json.accumulate("thumbnail", thumbnail);
             json.accumulate("type_id", type);
             json.accumulate("status", status);
             json.accumulate("isHotdeal",isHotdeal);
@@ -63,10 +65,13 @@ public class Product implements Parcelable{
             code = json.optString("code");
             product_name = json.optString("name");
             price = json.optDouble("price");
-            thumbnail = json.optString("thumnail");
+            thumbnail = json.optString("thumbnail");
             product_origin = json.optString("origin");
             status = json.optInt("status");
             description = json.optString("description", "");
+            quantity = json.optInt("quantity",0);
+            available_qty = json.optInt("available_qty",0);
+            pending_qty = json.optInt("pending_qty",0);
         }
     }
 
@@ -79,6 +84,9 @@ public class Product implements Parcelable{
         price = in.readDouble();
         status = in.readInt();
         description = in.readString();
+        quantity = in.readInt();
+        available_qty = in.readInt();
+        pending_qty = in.readInt();
     }
 
     @Override
@@ -96,6 +104,9 @@ public class Product implements Parcelable{
         dest.writeDouble(price);
         dest.writeInt(status);
         dest.writeString(description);
+        dest.writeInt(quantity);
+        dest.writeInt(available_qty);
+        dest.writeInt(pending_qty);
     }
 
     public static final Creator CREATOR = new Creator() {

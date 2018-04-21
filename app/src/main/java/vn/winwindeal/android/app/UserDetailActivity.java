@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import vn.winwindeal.android.app.adapter.SpinnerAdapter;
 import vn.winwindeal.android.app.model.SpinnerObj;
 import vn.winwindeal.android.app.model.UserInfo;
@@ -35,7 +36,7 @@ public class UserDetailActivity extends BaseActivity implements DataLoader.DataL
     private UserInfo mUser;
     private SearchUserWS mSearchUserWs;
     private UpdateUserWS mUpdateUserWs;
-    private ImageView mAvatar;
+    private CircleImageView mAvatar;
     private EditText mEmailEdt, mAddressEdt, mPhoneEdt;
     private Spinner mDistrictSpinner;
     private Spinner mStatusSpinner;
@@ -78,7 +79,7 @@ public class UserDetailActivity extends BaseActivity implements DataLoader.DataL
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         isEditable = getIntent().getBooleanExtra("is_editable", false);
 
-        mAvatar = (ImageView) findViewById(R.id.avatarImgv);
+        mAvatar = (CircleImageView) findViewById(R.id.avatarImgv);
         mEmailEdt = (EditText) findViewById(R.id.emailEdt);
         mAddressEdt = (EditText) findViewById(R.id.addressEdt);
         mPhoneEdt = (EditText) findViewById(R.id.phoneEdt);

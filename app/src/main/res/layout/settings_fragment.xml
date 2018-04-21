@@ -13,12 +13,11 @@
         android:layout_margin="20dp"
         android:background="@drawable/blue_stroke_border_bg"
         android:gravity="center">
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/avatarImgv"
             android:layout_width="@dimen/avatar_width"
             android:layout_height="@dimen/avatar_width"
-            android:src="@drawable/avatar"
-            android:scaleType="centerInside"/>
+            android:src="@drawable/avatar"/>
         <TextView
             android:id="@+id/emailTv"
             android:layout_width="match_parent"

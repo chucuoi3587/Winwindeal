@@ -62,10 +62,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         } else {
             holder.priceTv.setText(mContext.getResources().getString(R.string.price_call));
         }
-        if (p.status == 0) {
+        if (p.available_qty == 0) {
             holder.statusTv.setBackgroundColor(CommonUtil.getColor(mContext, R.color.colorSubTextView));
             holder.statusTv.setText(mContext.getResources().getString(R.string.out_of_stock));
-        } else if (p.status == 1) {
+        } else {
             holder.statusTv.setBackgroundColor(CommonUtil.getColor(mContext, R.color.colorPrimary));
             holder.statusTv.setText(mContext.getResources().getString(R.string.alive_lbl));
         }

@@ -52,8 +52,8 @@ public class AddProductWS extends DataLoader {
             json.accumulate("name", mName);
             json.accumulate("price", String.valueOf(mPrice));
             json.accumulate("origin", mOrigin);
-            json.accumulate("quantity", mOrigin);
-            json.accumulate("description", mOrigin);
+            json.accumulate("quantity", mQuantity);
+            json.accumulate("description", mDescription);
             if (mThumbnail != null && !mThumbnail.equals("")) {
                 dataPath = mThumbnail;
                 dataKey = "thumbnail";

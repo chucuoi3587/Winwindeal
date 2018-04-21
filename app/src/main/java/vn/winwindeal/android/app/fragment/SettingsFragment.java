@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import vn.winwindeal.android.app.AboutUsActivity;
 import vn.winwindeal.android.app.Constant;
 import vn.winwindeal.android.app.ContactUsActivity;
@@ -37,7 +38,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     private View mView;
     private LogoutWS mLogoutWs;
     private SearchUserWS mSearchUserWs;
-    private ImageView mAvatar;
+    private CircleImageView mAvatar;
     UserInfo ui;
 
     @Nullable
@@ -57,7 +58,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         mSearchUserWs.doSearch(null, jsonArray.put(ui.user_id));
         ((HomeActivity) getActivity()).showLoading();
         ((TextView) mView.findViewById(R.id.emailTv)).setText(ui.email);
-        mAvatar = (ImageView) mView.findViewById(R.id.avatarImgv);
+        mAvatar = (CircleImageView) mView.findViewById(R.id.avatarImgv);
         mView.findViewById(R.id.aboutUsLayout).setOnClickListener(this);
         mView.findViewById(R.id.contactUsLayout).setOnClickListener(this);
         mView.findViewById(R.id.cartLayout).setOnClickListener(this);
