@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -27,6 +29,7 @@ import vn.winwindeal.android.app.model.SpinnerObj;
 import vn.winwindeal.android.app.model.UserInfo;
 import vn.winwindeal.android.app.network.DataLoader;
 import vn.winwindeal.android.app.util.DialogUtil;
+import vn.winwindeal.android.app.util.FontUtil;
 import vn.winwindeal.android.app.webservice.SearchUserWS;
 import vn.winwindeal.android.app.webservice.UpdateUserWS;
 
@@ -39,7 +42,6 @@ public class UserDetailActivity extends BaseActivity implements DataLoader.DataL
     private CircleImageView mAvatar;
     private EditText mEmailEdt, mAddressEdt, mPhoneEdt;
     private Spinner mDistrictSpinner;
-    private Spinner mStatusSpinner;
     private String mAvatarPath = "";
     SpinnerAdapter districtAdapter;
     boolean isLock = false;
@@ -79,12 +81,14 @@ public class UserDetailActivity extends BaseActivity implements DataLoader.DataL
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         isEditable = getIntent().getBooleanExtra("is_editable", false);
 
+
+        ((TextView) findViewById(R.id.accStatusTitle)).setTypeface(FontUtil.getFontAssets(this, FontUtil.ROBOTO_MEDIUM));
+        ((TextView) findViewById(R.id.accStatus)).setTypeface(FontUtil.getFontAssets(this, FontUtil.ROBOTO_REGULAR));
         mAvatar = (CircleImageView) findViewById(R.id.avatarImgv);
         mEmailEdt = (EditText) findViewById(R.id.emailEdt);
         mAddressEdt = (EditText) findViewById(R.id.addressEdt);
         mPhoneEdt = (EditText) findViewById(R.id.phoneEdt);
         mDistrictSpinner = (Spinner) findViewById(R.id.districtSpinner);
-        mStatusSpinner = (Spinner) findViewById(R.id.statusSpinner);
 
         if (!isEditable) {
             mAvatar.setEnabled(false);
@@ -109,21 +113,11 @@ public class UserDetailActivity extends BaseActivity implements DataLoader.DataL
         mAvatar.setOnClickListener(this);
         UserInfo curUser = GlobalSharedPreference.getUserInfo(this);
         if (curUser.user_type == 1) {
-            SpinnerObj[] statusObjs = new SpinnerObj[3];
-            JSONObject statusJson;
-            try {
-                statusJson = new JSONObject(GlobalSharedPreference.getUserStatus(this));
-                for (int i = 0; i <= 2; i++) {
-                    statusObjs[i] = new SpinnerObj(i - 1, statusJson.optString(String.valueOf(i - 1)));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            SpinnerAdapter adapter = new SpinnerAdapter(this, android.R.layout.simple_list_item_1, statusObjs);
-            mStatusSpinner.setAdapter(adapter);
+
         } else {
             findViewById(R.id.statusLayout).setVisibility(View.GONE);
         }
+        findViewById(R.id.sttToggle).setOnClickListener(this);
     }
 
     private void doUpdate() {
@@ -132,7 +126,7 @@ public class UserDetailActivity extends BaseActivity implements DataLoader.DataL
         String phone = mPhoneEdt.getText().toString().trim();
         int district_id = ((SpinnerObj) mDistrictSpinner.getSelectedItem()).key;
         if (!email.equals("") && !address.equals("") && !phone.equals("") && district_id > 0) {
-            mUpdateUserWs.doUpdateUser(email, address, phone, district_id, mAvatarPath, mUser.user_id);
+            mUpdateUserWs.doUpdateUser(email, address, phone, district_id, mAvatarPath, mUser.user_id, mUser.status);
             showLoading();
         }
     }
@@ -196,7 +190,13 @@ public class UserDetailActivity extends BaseActivity implements DataLoader.DataL
     private void renderData() {
         if (mUser != null) {
             if (findViewById(R.id.statusLayout).getVisibility() == View.VISIBLE) {
-                mStatusSpinner.setSelection(mUser.status + 1);
+                if (mUser.status == 0) {
+                    ((ImageView) findViewById(R.id.sttToggle)).setImageResource(R.drawable.toggle_off);
+                    ((TextView) findViewById(R.id.accStatus)).setText(getString(R.string.inactive));
+                } else {
+                    ((ImageView) findViewById(R.id.sttToggle)).setImageResource(R.drawable.toggle_on);
+                    ((TextView) findViewById(R.id.accStatus)).setText(getString(R.string.active));
+                }
             }
             if (!mUser.avatar.equals("") && !mUser.avatar.equals("null")) {
                 Glide.with(this).load(mUser.avatar).into(mAvatar);
@@ -229,6 +229,17 @@ public class UserDetailActivity extends BaseActivity implements DataLoader.DataL
             case R.id.avatarImgv:
                 Intent intent = new Intent(UserDetailActivity.this, MyCropImageActivity.class);
                 startActivityForResult(intent, Constant.REQUEST_GET_IMAGE_CHOOSER_INTENT);
+                break;
+            case R.id.sttToggle:
+                if (mUser.status == 0) {
+                    mUser.status = 1;
+                    ((ImageView) findViewById(R.id.sttToggle)).setImageResource(R.drawable.toggle_on);
+                    ((TextView) findViewById(R.id.accStatus)).setText(getString(R.string.active));
+                } else {
+                    mUser.status = 0;
+                    ((ImageView) findViewById(R.id.sttToggle)).setImageResource(R.drawable.toggle_off);
+                    ((TextView) findViewById(R.id.accStatus)).setText(getString(R.string.inactive));
+                }
                 break;
         }
     }

@@ -87,21 +87,41 @@
                 android:background="@drawable/box_defocus_border"
                 android:layout_marginTop="10dp"
                 android:imeOptions="actionGo"/>
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/statusLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@drawable/box_defocus_border"
                 android:layout_marginTop="10dp"
                 android:paddingRight="10dp"
                 android:layout_gravity="left">
-                <Spinner
-                    android:id="@+id/statusSpinner"
+                <TextView
+                    android:id="@+id/accStatusTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    ></Spinner>
-            </LinearLayout>
+                    style="@style/TextView"
+                    android:text="@string/account_status"
+                    android:layout_alignParentLeft="true"/>
+
+                <TextView
+                    android:id="@+id/accStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/accStatusTitle"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="-5dp"
+                    android:text="@string/account_status"
+                    android:textColor="@color/colorTextView"
+                    android:textSize="@dimen/text_size_3" />
+
+                <ImageView
+                    android:id="@+id/sttToggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/toggle_off"
+                    android:layout_alignParentRight="true"
+                    android:padding="5dp"/>
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 

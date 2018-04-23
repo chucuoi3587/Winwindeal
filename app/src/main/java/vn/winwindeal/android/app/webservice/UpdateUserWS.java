@@ -19,7 +19,7 @@ import vn.winwindeal.android.app.network.DataLoader;
 public class UpdateUserWS extends DataLoader {
 
     private String mMail, mAddress, mPhone, mThumbnail;
-    private int mDistrictId, mUserId;
+    private int mDistrictId, mUserId, mStatus;
     private DataLoaderInterface mHandler;
 
     public UpdateUserWS(Context context) {
@@ -30,12 +30,13 @@ public class UpdateUserWS extends DataLoader {
         this.mHandler = handler;
     }
 
-    public void doUpdateUser(String email, String address, String phone, int district_id, String thumbnail, int userId) {
+    public void doUpdateUser(String email, String address, String phone, int district_id, String thumbnail, int userId, int status) {
         this.mMail = email;
         this.mAddress = address;
         this.mPhone = phone;
         this.mDistrictId = district_id;
         this.mThumbnail = thumbnail;
+        this.mStatus = status;
         this.mUserId = userId;
         isUploadFile = true;
         checkSessionTokenAndBuildRequest();
@@ -51,6 +52,7 @@ public class UpdateUserWS extends DataLoader {
             json.accumulate("phone", mPhone);
             json.accumulate("district_id", mDistrictId);
             json.accumulate("id", mUserId);
+            json.accumulate("status", mStatus);
             if (mThumbnail != null && !mThumbnail.equals("")) {
                 dataPath = mThumbnail;
                 dataKey = "avatar";
