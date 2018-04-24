@@ -25,6 +25,7 @@ import vn.winwindeal.android.app.GlobalSharedPreference;
 import vn.winwindeal.android.app.HomeActivity;
 import vn.winwindeal.android.app.LoginActivity;
 import vn.winwindeal.android.app.OrderActivity;
+import vn.winwindeal.android.app.OrderListActivity;
 import vn.winwindeal.android.app.R;
 import vn.winwindeal.android.app.UserDetailActivity;
 import vn.winwindeal.android.app.model.UserInfo;
@@ -64,6 +65,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         mView.findViewById(R.id.cartLayout).setOnClickListener(this);
         mView.findViewById(R.id.avatarImgv).setOnClickListener(this);
         mView.findViewById(R.id.emailTv).setOnClickListener(this);
+        mView.findViewById(R.id.orderHistoryLayout).setOnClickListener(this);
 
         if (ui.user_type == 1) {
             mView.findViewById(R.id.cartLayout).setVisibility(View.GONE);
@@ -144,6 +146,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 intent.putExtra("user_id", ui.user_id);
                 intent.putExtra("is_editable", true);
                 startActivityForResult(intent, Constant.REQUEST_EDIT_USER);
+                break;
+            case R.id.orderHistoryLayout:
+                intent = new Intent(getActivity(), OrderListActivity.class);
+                startActivity(intent);
                 break;
         }
     }

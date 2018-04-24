@@ -153,7 +153,7 @@ public class UsersFragment extends Fragment {
         public void onItemClickListener(int position) {
             UserInfo usr = mUsers.get(position);
             Intent intent = new Intent(getActivity(), UserDetailActivity.class);
-            intent.putExtra("user", usr);
+            intent.putExtra("user_id", usr.user_id);
             intent.putExtra("is_editable", ui.user_type == 1 ? true : false);
             startActivity(intent);
         }

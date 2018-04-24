@@ -26,8 +26,14 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -45,6 +51,9 @@ import vn.winwindeal.android.app.model.Product;
  */
 
 public class CommonUtil {
+    public static final String DATE_FORMAT_ISODATE = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    public static final String DATE_FORMAT_ISODATE_OFFSET = "yyyy-MM-dd'T'HH:mm:ssZ";
+    public static final String DATE_FORMATE_FULL_PATTERN = "dd-MM-yyyy, HH:mm";
     public static File cacheDir;
 
     public static int getColor(Context context, int id) {
@@ -223,5 +232,35 @@ public class CommonUtil {
                 file.delete();
             }
         }
+    }
+
+    public static Date parseDate(String strDate, String pattern) {
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, Locale.getDefault());
+        formatter.setTimeZone(TimeZone.getDefault());
+        try {
+            // Date date = formatter.parse(strDate);
+            return formatter.parse(strDate);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getDate(Date date, String strFormate) {
+        SimpleDateFormat formatter = new SimpleDateFormat(strFormate, Locale.US);
+        // formatter.setTimeZone(TimeZone.getDefault());
+        TimeZone timezone = TimeZone.getDefault();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MILLISECOND, timezone.getRawOffset());
+        return formatter.format(cal.getTime());
+    }
+
+    public static String getDateWithoutOffset(Date date, String pattern) {
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, Locale.getDefault());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return formatter.format(cal.getTime());
     }
 }

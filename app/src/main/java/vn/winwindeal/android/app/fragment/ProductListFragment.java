@@ -67,7 +67,7 @@ public class ProductListFragment extends Fragment implements View.OnClickListene
         recyclerView = (RecyclerView) mView.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, CommonUtil.dpToPx(10, getActivity()), true));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, CommonUtil.dpToPx(5, getActivity()), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 

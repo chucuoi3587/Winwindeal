@@ -28,6 +28,7 @@ import vn.winwindeal.android.app.adapter.SpinnerAdapter;
 import vn.winwindeal.android.app.model.SpinnerObj;
 import vn.winwindeal.android.app.model.UserInfo;
 import vn.winwindeal.android.app.network.DataLoader;
+import vn.winwindeal.android.app.util.CommonUtil;
 import vn.winwindeal.android.app.util.DialogUtil;
 import vn.winwindeal.android.app.util.FontUtil;
 import vn.winwindeal.android.app.webservice.SearchUserWS;
@@ -80,7 +81,6 @@ public class UserDetailActivity extends BaseActivity implements DataLoader.DataL
         setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         isEditable = getIntent().getBooleanExtra("is_editable", false);
-
 
         ((TextView) findViewById(R.id.accStatusTitle)).setTypeface(FontUtil.getFontAssets(this, FontUtil.ROBOTO_MEDIUM));
         ((TextView) findViewById(R.id.accStatus)).setTypeface(FontUtil.getFontAssets(this, FontUtil.ROBOTO_REGULAR));
@@ -235,10 +235,12 @@ public class UserDetailActivity extends BaseActivity implements DataLoader.DataL
                     mUser.status = 1;
                     ((ImageView) findViewById(R.id.sttToggle)).setImageResource(R.drawable.toggle_on);
                     ((TextView) findViewById(R.id.accStatus)).setText(getString(R.string.active));
+                    ((TextView) findViewById(R.id.accStatus)).setTextColor(CommonUtil.getColor(UserDetailActivity.this, R.color.colorDarkBlue));
                 } else {
                     mUser.status = 0;
                     ((ImageView) findViewById(R.id.sttToggle)).setImageResource(R.drawable.toggle_off);
                     ((TextView) findViewById(R.id.accStatus)).setText(getString(R.string.inactive));
+                    ((TextView) findViewById(R.id.accStatus)).setTextColor(CommonUtil.getColor(UserDetailActivity.this, R.color.colorSubTextView));
                 }
                 break;
         }
