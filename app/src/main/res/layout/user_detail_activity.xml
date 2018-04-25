@@ -69,6 +69,32 @@
                     android:padding="5dp"/>
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/workAreaLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/areaTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorTextView"
+                    android:text="@string/working_area"
+                    android:textSize="@dimen/text_size_2"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/arrow_right"
+                    android:layout_alignParentRight="true"/>
+                <TextView
+                    android:id="@+id/areaDetailTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorTextView"
+                    android:textSize="@dimen/text_size_3"
+                    android:layout_below="@+id/areaTitle"/>
+            </RelativeLayout>
+
             <EditText
                 android:id="@+id/emailEdt"
                 android:layout_width="match_parent"

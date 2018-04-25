@@ -4,7 +4,8 @@
     <item
         android:id="@+id/action_delete"
         android:enabled="true"
-        android:title="@string/delete_cap_lbl"
+        android:title=""
+        android:icon="@drawable/toolbar_icon_delete"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_save"
