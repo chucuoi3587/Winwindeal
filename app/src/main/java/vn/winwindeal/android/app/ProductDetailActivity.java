@@ -11,10 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import vn.winwindeal.android.app.model.Product;
 import vn.winwindeal.android.app.util.CommonUtil;
 import vn.winwindeal.android.app.util.FontUtil;
@@ -79,7 +75,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.orderBtn:
                 CommonUtil.addProductToCart(ProductDetailActivity.this, mProduct);
-                Intent intent = new Intent(ProductDetailActivity.this, OrderActivity.class);
+                Intent intent = new Intent(ProductDetailActivity.this, CartActivity.class);
                 startActivity(intent);
                 break;
         }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:orientation="horizontal" >
+    <View
+        android:id="@+id/cancelSpaceView"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        ></View>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:paddingLeft="0dp"
+        android:paddingTop="18dp"
+        android:paddingBottom="18dp"
+        android:layout_marginLeft="0dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+        <!--drawable/activity_popup_border_bg-->
+
+        <TextView
+            android:id="@+id/titleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/working_area"
+            android:textColor="@color/colorTextView"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size_1"
+            android:paddingLeft="19dp"
+            android:paddingRight="18dp"/>
+
+
+        <ListView
+            android:id="@+id/districtLv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="18dp"
+            android:listSelector="@color/transparent"></ListView>
+
+    </LinearLayout>
+
+</LinearLayout>

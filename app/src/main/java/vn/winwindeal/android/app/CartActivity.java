@@ -23,7 +23,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import vn.winwindeal.android.app.adapter.OrderListAdapter;
+import vn.winwindeal.android.app.adapter.CartListAdapter;
 import vn.winwindeal.android.app.model.Product;
 import vn.winwindeal.android.app.model.UserInfo;
 import vn.winwindeal.android.app.network.DataLoader;
@@ -33,12 +33,12 @@ import vn.winwindeal.android.app.util.FontUtil;
 import vn.winwindeal.android.app.webservice.AddOrderWS;
 import vn.winwindeal.android.app.webservice.SearchUserWS;
 
-public class OrderActivity extends BaseActivity implements View.OnClickListener, DataLoader.DataLoaderInterface{
+public class CartActivity extends BaseActivity implements View.OnClickListener, DataLoader.DataLoaderInterface{
 
     Toolbar toolbar;
     private EditText mAddressEdt;
     private RecyclerView mRecyclerView;
-    private OrderListAdapter mAdapter;
+    private CartListAdapter mAdapter;
     private ArrayList<Product> mProducts;
     private AddOrderWS mAddOrderWs;
     private SearchUserWS mSearchUserWs;
@@ -63,12 +63,12 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         mProducts = new ArrayList<>();
         mAddressEdt = (EditText) findViewById(R.id.addressEdt);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        DividerItemDecoration dividerDecor = new DividerItemDecoration(OrderActivity.this, DividerItemDecoration.VERTICAL);
-        dividerDecor.setDrawable(CommonUtil.getResourceDrawable(OrderActivity.this, R.drawable.divider));
+        DividerItemDecoration dividerDecor = new DividerItemDecoration(CartActivity.this, DividerItemDecoration.VERTICAL);
+        dividerDecor.setDrawable(CommonUtil.getResourceDrawable(CartActivity.this, R.drawable.divider));
         mRecyclerView.addItemDecoration(dividerDecor);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(OrderActivity.this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(CartActivity.this);
         mRecyclerView.setLayoutManager(layoutManager);
         HashMap<String, String> map = GlobalSharedPreference.getProductOrder(this);
         try {
@@ -78,7 +78,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 Product p = new Product(jsonArray.optJSONObject(i));
                 mProducts.add(p);
             }
-            mAdapter = new OrderListAdapter(this, mProducts, new JSONObject(map.get(Constant.QUANTITY)));
+            mAdapter = new CartListAdapter(this, mProducts, new JSONObject(map.get(Constant.QUANTITY)));
             mRecyclerView.setAdapter(mAdapter);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -113,17 +113,17 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
             case Constant.REQUEST_API_ORDER_ADD:
                 String message = ((JSONObject) result).optString("message", "");
                 if (message.equals("successful")) {
-                    DialogUtil.showWarningDialog(OrderActivity.this, null, getString(R.string.add_order_successfully), new View.OnClickListener() {
+                    DialogUtil.showWarningDialog(CartActivity.this, null, getString(R.string.add_order_successfully), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            GlobalSharedPreference.clearProductOrder(OrderActivity.this);
-                            Intent intent = new Intent(OrderActivity.this, HomeActivity.class);
+                            GlobalSharedPreference.clearProductOrder(CartActivity.this);
+                            Intent intent = new Intent(CartActivity.this, HomeActivity.class);
                             startActivity(intent);
                             finishAffinity();
                         }
                     }, Gravity.LEFT, false);
                 } else {
-                    DialogUtil.showWarningDialog(OrderActivity.this, null, getString(R.string.add_order_failed), null, Gravity.LEFT, false);
+                    DialogUtil.showWarningDialog(CartActivity.this, null, getString(R.string.add_order_failed), null, Gravity.LEFT, false);
                 }
                 break;
             case Constant.REQUEST_API_SEARCH_USER:
@@ -166,7 +166,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
             HashMap<String, String> map = new HashMap<>();
             map.put(Constant.ORDER, json.toString());
             map.put(Constant.QUANTITY, mAdapter.getQuantityJson().toString());
-            GlobalSharedPreference.saveProductOrder(OrderActivity.this, map);
+            GlobalSharedPreference.saveProductOrder(CartActivity.this, map);
             return null;
         }
 
@@ -186,7 +186,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                     showLoading();
                     new CreatOrderAsyncTask().execute();
                 } else {
-                    DialogUtil.showWarningDialog(OrderActivity.this, null, getString(R.string.address_warning), null, Gravity.LEFT, false);
+                    DialogUtil.showWarningDialog(CartActivity.this, null, getString(R.string.address_warning), null, Gravity.LEFT, false);
                 }
                 break;
         }

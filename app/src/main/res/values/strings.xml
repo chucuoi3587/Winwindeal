@@ -66,4 +66,7 @@
     <string name="inactive">Inactive</string>
     <string name="active">Active</string>
     <string name="working_area">Khu vực quản lý</string>
+    <string name="order_stt_new">Mới tạo</string>
+    <string name="order_stt_processing">Đang\nxử lý</string>
+    <string name="order_stt_done">Hoàn thành</string>
 </resources>

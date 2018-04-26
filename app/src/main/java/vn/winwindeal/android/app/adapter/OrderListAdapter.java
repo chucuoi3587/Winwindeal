@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -16,116 +16,109 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import vn.winwindeal.android.app.GlobalSharedPreference;
 import vn.winwindeal.android.app.R;
-import vn.winwindeal.android.app.model.Product;
-import vn.winwindeal.android.app.util.DialogUtil;
+import vn.winwindeal.android.app.model.Order;
+import vn.winwindeal.android.app.model.UserInfo;
+import vn.winwindeal.android.app.util.CommonUtil;
 import vn.winwindeal.android.app.util.FontUtil;
 
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
 
-    private ArrayList<Product> mProducts;
-    private JSONObject mQuantityJson;
+    private ArrayList<Order> mOrders;
     private Context mContext;
+    private JSONObject mDistrictJSON;
+    int type;
     public boolean isEdit = false;
+    private itemClickListener mlistener;
 
-    public OrderListAdapter(Context context, ArrayList<Product> products, JSONObject quantity){
+    public interface itemClickListener {
+        void onItemClickListener(int position);
+        void onPhoneClickListener(int position);
+    }
+
+    public OrderListAdapter(Context context, ArrayList<Order> orders, int type, itemClickListener listener){
         this.mContext = context;
-        this.mProducts = products;
-        this.mQuantityJson = quantity;
-    }
-
-    public ArrayList<Product> getProducts() {
-        return mProducts;
-    }
-
-    public JSONObject getQuantityJson() {
-        return mQuantityJson;
+        this.mOrders = orders;
+        this.type = type;
+        this.mlistener = listener;
+        try {
+            mDistrictJSON = new JSONObject(GlobalSharedPreference.getDistricts(context));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_list_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view, parent.getContext());
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final Product p = mProducts.get(position);
-        holder.nameTv.setText(p.product_name);
-        if (p.price > 0) {
-            holder.priceTv.setText(String.valueOf(p.price));
+        final Order order = mOrders.get(position);
+        holder.dateTv.setText(order.updated_at);
+        holder.emailTv.setText(order.email);
+        holder.addressTv.setText(order.address);
+        if (order.order_status_id == 1) {
+            // new
+            holder.statusTv.setText(mContext.getResources().getString(R.string.order_stt_new));
+            holder.statusTv.setBackgroundResource(R.drawable.order_create_border_bg);
+            holder.statusTv.setTextColor(CommonUtil.getColor(mContext, R.color.colorWhite));
+        } else if (order.order_status_id == 2) {
+            // processing
+            holder.statusTv.setText(mContext.getResources().getString(R.string.order_stt_processing));
+            holder.statusTv.setBackgroundResource(R.drawable.order_process_border_bg);
+            holder.statusTv.setTextColor(CommonUtil.getColor(mContext, R.color.colorWhite));
         } else {
-            holder.priceTv.setText(mContext.getResources().getString(R.string.price_call));
+            // done
+            holder.statusTv.setText(mContext.getResources().getString(R.string.order_stt_done));
+            holder.statusTv.setBackgroundResource(R.drawable.order_done_border_bg);
+            holder.statusTv.setTextColor(CommonUtil.getColor(mContext, R.color.colorTextView));
         }
-        try {
-            int quantity = mQuantityJson.getInt(String.valueOf(p.product_id));
-            holder.quantityTv.setText(String.valueOf(quantity));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Glide.with(mContext).load(p.thumbnail).into(holder.thumbnail);
-        holder.leftArrow.setOnClickListener(new View.OnClickListener() {
+        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                int i = Integer.parseInt(holder.quantityTv.getText().toString().trim());
-                if (i == 1) {
-                    DialogUtil.showConfirmDialog(mContext, null, mContext.getResources().getString(R.string.remove_product_order_warning), null, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mProducts.remove(position);
-                            mQuantityJson.remove(String.valueOf(p.product_id));
-                            notifyDataSetChanged();
-                            isEdit = true;
-                        }
-                    }, null, true);
-                } else {
-                    i -= 1;
-                    holder.quantityTv.setText(String.valueOf(i));
-                    try {
-                        mQuantityJson.put(String.valueOf(p.product_id), i);
-                        isEdit = true;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
+            public void onClick(View view) {
+                mlistener.onItemClickListener(position);
             }
         });
-        holder.rightArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int i = Integer.parseInt(holder.quantityTv.getText().toString().trim());
-                i += 1;
-                holder.quantityTv.setText(String.valueOf(i));
-                try {
-                    mQuantityJson.put(String.valueOf(p.product_id), i);
-                    isEdit = true;
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if (type == 1 || type == 2) {
+            // admin or sale
+            holder.phoneImgv.setVisibility(View.VISIBLE);
+            holder.phoneImgv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mlistener.onPhoneClickListener(position);
                 }
-            }
-        });
+            });
+        } else {
+            // customer
+            holder.phoneImgv.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mProducts.size();
+        return mOrders.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView thumbnail, leftArrow, rightArrow;
-        public TextView nameTv, priceTv, quantityTv;
+        public ImageView phoneImgv;
+        public TextView emailTv, dateTv, addressTv, statusTv;
+        public LinearLayout mainLayout;
         public ViewHolder(View view, Context context) {
             super(view);
-            thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
-            nameTv = (TextView) view.findViewById(R.id.nameTv);
-            priceTv = (TextView) view.findViewById(R.id.priceTv);
-            quantityTv = (TextView) view.findViewById(R.id.quantityTv);
-            leftArrow = (ImageView) view.findViewById(R.id.leftArrow);
-            rightArrow = (ImageView) view.findViewById(R.id.rightArrow);
-            nameTv.setTypeface(FontUtil.getFontAssets(context, FontUtil.ROBOTO_MEDIUM));
-            priceTv.setTypeface(FontUtil.getFontAssets(context, FontUtil.ROBOTO_REGULAR));
-            quantityTv.setTypeface(FontUtil.getFontAssets(context, FontUtil.ROBOTO_REGULAR));
+            mainLayout = (LinearLayout) view.findViewById(R.id.mainLayout);
+            statusTv = (TextView) view.findViewById(R.id.orderSttTv);
+            emailTv = (TextView) view.findViewById(R.id.emailTv);
+            addressTv = (TextView) view.findViewById(R.id.addressTv);
+            dateTv = (TextView) view.findViewById(R.id.dateTv);
+            emailTv.setTypeface(FontUtil.getFontAssets(context, FontUtil.ROBOTO_MEDIUM));
+            dateTv.setTypeface(FontUtil.getFontAssets(context, FontUtil.ROBOTO_REGULAR));
+            addressTv.setTypeface(FontUtil.getFontAssets(context, FontUtil.ROBOTO_REGULAR));
+            phoneImgv = (ImageView) view.findViewById(R.id.phoneIcon);
         }
     }
 }

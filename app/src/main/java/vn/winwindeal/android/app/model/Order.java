@@ -18,6 +18,7 @@ public class Order {
     public String updated_at;
     public String address;
     public String phone;
+    public String email;
 
     public Order(JSONObject json) {
         if (json != null) {
@@ -45,6 +46,7 @@ public class Order {
             }
             address = json.optString("address", "");
             phone = json.optString("phone", "");
+            email = json.optString("email", "");
         }
     }
 }

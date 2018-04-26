@@ -15,4 +15,6 @@
     <color name="transparent">#00000000</color>
     <color name="line_color">#DDDDDD</color>
     <color name="colorDarkBlue">#0088D3</color>
+    <color name="colorGreenPhone">#8abb2c</color>
+    <color name="colorGreenPhonePress">#6a9021</color>
 </resources>

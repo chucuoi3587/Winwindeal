@@ -40,7 +40,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_gravity="left">
+                android:layout_gravity="left"
+                android:visibility="gone">
                 <TextView
                     android:id="@+id/accStatusTitle"
                     android:layout_width="wrap_content"
@@ -73,7 +74,9 @@
                 android:id="@+id/workAreaLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone">
                 <TextView
                     android:id="@+id/areaTitle"
                     android:layout_width="wrap_content"
@@ -90,7 +93,7 @@
                     android:id="@+id/areaDetailTv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorTextView"
+                    android:textColor="@color/colorSubTextView"
                     android:textSize="@dimen/text_size_3"
                     android:layout_below="@+id/areaTitle"/>
             </RelativeLayout>

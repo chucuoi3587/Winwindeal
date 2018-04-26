@@ -2,7 +2,6 @@ package vn.winwindeal.android.app.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -26,7 +25,6 @@ import java.util.ArrayList;
 import vn.winwindeal.android.app.Constant;
 import vn.winwindeal.android.app.GlobalSharedPreference;
 import vn.winwindeal.android.app.HomeActivity;
-import vn.winwindeal.android.app.OrderActivity;
 import vn.winwindeal.android.app.R;
 import vn.winwindeal.android.app.UserDetailActivity;
 import vn.winwindeal.android.app.adapter.UserListAdapter;

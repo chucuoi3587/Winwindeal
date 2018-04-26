@@ -24,7 +24,7 @@ import vn.winwindeal.android.app.Constant;
 import vn.winwindeal.android.app.CreateEditProductActivity;
 import vn.winwindeal.android.app.GlobalSharedPreference;
 import vn.winwindeal.android.app.HomeActivity;
-import vn.winwindeal.android.app.OrderActivity;
+import vn.winwindeal.android.app.CartActivity;
 import vn.winwindeal.android.app.ProductDetailActivity;
 import vn.winwindeal.android.app.R;
 import vn.winwindeal.android.app.adapter.ProductListAdapter;
@@ -150,7 +150,7 @@ public class ProductListFragment extends Fragment implements View.OnClickListene
             switch (item.getItemId()) {
                 case R.id.action_order:
                     CommonUtil.addProductToCart(getActivity(), product);
-                    Intent intent = new Intent(getActivity(), OrderActivity.class);
+                    Intent intent = new Intent(getActivity(), CartActivity.class);
                     startActivity(intent);
                     return true;
                 case R.id.action_add_to_cart:
