@@ -30,7 +30,7 @@ public class OrderDetailWS extends DataLoader {
         this.mHandler = handler;
     }
 
-    public void doSearchOrder(int orderId, int userId, int orderStatusId, int districtId) {
+    public void doSearchOrder(int orderId) {
         this.mOrderId = orderId;
         checkSessionTokenAndBuildRequest();
     }

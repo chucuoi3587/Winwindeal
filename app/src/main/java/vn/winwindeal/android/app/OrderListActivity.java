@@ -1,5 +1,6 @@
 package vn.winwindeal.android.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -119,8 +120,12 @@ public class OrderListActivity extends BaseActivity implements DataLoader.DataLo
     private OrderListAdapter.itemClickListener mListener = new OrderListAdapter.itemClickListener() {
         @Override
         public void onItemClickListener(int position) {
-
-        }
+            Order od = mOrders.get(position);
+            Intent intent = new Intent(OrderListActivity.this, OrderDetailActivity.class);
+            intent.putExtra("order_id", od.order_id);
+            intent.putExtra("address", od.address);
+            startActivity(intent);
+         }
 
         @Override
         public void onPhoneClickListener(int position) {

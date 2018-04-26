@@ -53,6 +53,7 @@
     <string name="about_us">Về chúng tôi</string>
     <string name="contact_us">Liên hệ</string>
     <string name="order_history">Lịch sử đơn hàng</string>
+    <string name="order_detail_lbl">Chi tiết đơn hàng</string>
     <string name="remove_product_order_warning">Bạn có muốn xóa sản phẩm này khỏi giỏ hàng?</string>
     <string name="user_not_active_warning_message">Tài khoản chưa được kích hoạt, vui lòng liên hệ Admin để được hỗ trợ vấn đề này!</string>
     <string name="data_empty">(chưa cập nhật)</string>

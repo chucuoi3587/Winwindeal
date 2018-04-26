@@ -6,6 +6,10 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Date;
+
+import vn.winwindeal.android.app.util.CommonUtil;
+
 /**
  * Created by nhannguyen on 4/6/2018.
  */
@@ -24,6 +28,8 @@ public class Product implements Parcelable{
     public int type; // 1 : banh | 2 : do uong | 3 : sua tam | 4 : snack
     public int status;
     public boolean isHotdeal;
+    public String created_at;
+    public String updated_at;
 
     public Product(int product_id, String product_name, String description, int quantity,
                    double price, String product_origin, String thumbnail, int type, boolean isHotdeal) {
@@ -72,6 +78,24 @@ public class Product implements Parcelable{
             quantity = json.optInt("quantity",0);
             available_qty = json.optInt("available_qty",0);
             pending_qty = json.optInt("pending_qty",0);
+            String strCreate = json.optString("created_at", "");
+            if (!strCreate.equals("")) {
+                Date createDate = CommonUtil.parseDate(strCreate, CommonUtil.DATE_FORMAT_ISODATE);
+                if (createDate != null) {
+                    created_at = CommonUtil.getDate(createDate, CommonUtil.DATE_FORMATE_FULL_PATTERN);
+                }
+            } else {
+                created_at = "";
+            }
+            String strUpdate = json.optString("updated_at", "");
+            if (!strUpdate.equals("")) {
+                Date updateDate = CommonUtil.parseDate(strUpdate, CommonUtil.DATE_FORMAT_ISODATE);
+                if (updateDate != null) {
+                    updated_at = CommonUtil.getDate(updateDate, CommonUtil.DATE_FORMATE_FULL_PATTERN);
+                }
+            } else {
+                updated_at = "";
+            }
         }
     }
 

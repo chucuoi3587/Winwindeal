@@ -393,6 +393,12 @@ public class UserDetailActivity extends BaseActivity implements DataLoader.DataL
         });
 
         ListView lv = (ListView) dialog.findViewById(R.id.districtLv);
+        Collections.sort(mDistricts, new Comparator<District>() {
+            @Override
+            public int compare(District district, District t1) {
+                return district.district_id - t1.district_id;
+            }
+        });
         mDistListAdapter = new DistrictListAdapter(UserDetailActivity.this, mDistricts, selectedDistricts);
         lv.setAdapter(mDistListAdapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

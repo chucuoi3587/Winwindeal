@@ -11,6 +11,7 @@ import vn.winwindeal.android.app.util.CommonUtil;
  */
 
 public class Order {
+    public int order_id;
     public int user_id;
     public int order_status_id;
     public Double total_money;
@@ -22,6 +23,7 @@ public class Order {
 
     public Order(JSONObject json) {
         if (json != null) {
+            order_id = json.optInt("id", -1);
             user_id = json.optInt("user_id", -1);
             order_status_id = json.optInt("order_status_id", -1);
             total_money = json.optDouble("total_money", 0);

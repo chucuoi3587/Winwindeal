@@ -32,6 +32,7 @@
         <activity android:name=".UserDetailActivity"/>
         <activity android:name=".MyCropImageActivity"/>
         <activity android:name=".OrderListActivity"/>
+        <activity android:name=".OrderDetailActivity"/>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

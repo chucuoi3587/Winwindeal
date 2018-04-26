@@ -59,7 +59,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Order order = mOrders.get(position);
-        holder.dateTv.setText(order.updated_at);
+        holder.dateTv.setText(order.created_at);
         holder.emailTv.setText(order.email);
         holder.addressTv.setText(order.address);
         if (order.order_status_id == 1) {
