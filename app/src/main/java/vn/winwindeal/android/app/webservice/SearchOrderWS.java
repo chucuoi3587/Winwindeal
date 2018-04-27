@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,7 +20,7 @@ import vn.winwindeal.android.app.network.DataLoader;
 
 public class SearchOrderWS extends DataLoader {
 
-    private Integer mOrderId, mUserId, mOrderStatusId, mDistrictId;
+    private JSONArray mOrderId, mUserId, mOrderStatusId, mDistrictId;
     private DataLoaderInterface mHandler;
 
     public SearchOrderWS(Context context) {
@@ -30,7 +31,7 @@ public class SearchOrderWS extends DataLoader {
         this.mHandler = handler;
     }
 
-    public void doSearchOrder(Integer orderId, Integer userId, Integer orderStatusId, Integer districtId) {
+    public void doSearchOrder(JSONArray orderId, JSONArray userId, JSONArray orderStatusId, JSONArray districtId) {
         this.mOrderId = orderId;
         this.mUserId = userId;
         this.mOrderStatusId = orderStatusId;
@@ -44,17 +45,17 @@ public class SearchOrderWS extends DataLoader {
             List<NameValuePair> paramsSearch = new ArrayList<>();
             JSONObject json = new JSONObject();
             json.accumulate("session_token", GlobalSharedPreference.getUserInfo(mContext).access_token);
-            if (mOrderId != null && mOrderId != -1) {
-                json.accumulate("order_id", mOrderId);
+            if (mOrderId != null) {
+                json.accumulate("order_ids", mOrderId);
             }
-            if (mUserId != null && mUserId != -1) {
-                json.accumulate("user_id", mUserId);
+            if (mUserId != null) {
+                json.accumulate("user_ids", mUserId);
             }
-            if (mOrderStatusId != null && mOrderStatusId != -1) {
-                json.accumulate("order_status_id", mOrderStatusId);
+            if (mOrderStatusId != null) {
+                json.accumulate("order_status_ids", mOrderStatusId);
             }
-            if (mDistrictId != null && mDistrictId != -1) {
-                json.accumulate("district_id", mDistrictId);
+            if (mDistrictId != null) {
+                json.accumulate("district_ids", mDistrictId);
             }
 
             StringBuilder query = new StringBuilder(api + Constant.API_ORDER_SEARCH);

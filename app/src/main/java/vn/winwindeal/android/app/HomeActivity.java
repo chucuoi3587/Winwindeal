@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 
+import vn.winwindeal.android.app.fragment.OrderFragment;
 import vn.winwindeal.android.app.fragment.ProductListFragment;
 import vn.winwindeal.android.app.fragment.SettingsFragment;
 import vn.winwindeal.android.app.fragment.UsersFragment;
@@ -50,6 +51,9 @@ public class HomeActivity extends BaseActivity {
                     case R.id.action_settings:
                         setFragment(Constant.SETTINGS_FRAGMENT);
                         break;
+                    case R.id.action_task:
+                        setFragment(Constant.ORDER_FRAGMENT);
+                        break;
                 }
                 return true;
             }
@@ -78,6 +82,9 @@ public class HomeActivity extends BaseActivity {
                 break;
             case Constant.SETTINGS_FRAGMENT:
                 fragment = new SettingsFragment();
+                break;
+            case Constant.ORDER_FRAGMENT:
+                fragment = new OrderFragment();
                 break;
         }
         if (fragment != null) {

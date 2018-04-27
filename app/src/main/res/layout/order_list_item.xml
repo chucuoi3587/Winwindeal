@@ -43,13 +43,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorTextView"
+                android:ellipsize="end"
                 android:textSize="@dimen/text_size_2"/>
         </LinearLayout>
         <ImageView
             android:id="@+id/phoneIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/phone_width"
+            android:layout_height="@dimen/order_height"
             android:src="@drawable/phone_icon"
+            android:scaleType="centerInside"
             android:background="@drawable/phone_icon_selector"/>
     </LinearLayout>
 

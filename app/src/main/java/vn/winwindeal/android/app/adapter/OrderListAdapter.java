@@ -76,7 +76,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             // done
             holder.statusTv.setText(mContext.getResources().getString(R.string.order_stt_done));
             holder.statusTv.setBackgroundResource(R.drawable.order_done_border_bg);
-            holder.statusTv.setTextColor(CommonUtil.getColor(mContext, R.color.colorTextView));
+            holder.statusTv.setTextColor(CommonUtil.getColor(mContext, R.color.colorWhite));
         }
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override

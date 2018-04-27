@@ -31,6 +31,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+            <TextView
+                android:id="@+id/qtyPreTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_2"
+                android:textColor="@color/colorTextView"
+                android:text="@string/product_quantity"
+                android:visibility="gone"/>
             <ImageView
                 android:id="@+id/leftArrow"
                 android:layout_width="wrap_content"

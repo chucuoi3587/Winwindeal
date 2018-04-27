@@ -67,7 +67,9 @@ public class OrderListActivity extends BaseActivity implements DataLoader.DataLo
 
         mSearchWs = new SearchOrderWS(this);
         UserInfo ui = GlobalSharedPreference.getUserInfo(this);
-        mSearchWs.doSearchOrder(null, ui.user_id, null, null);
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(ui.user_id);
+        mSearchWs.doSearchOrder(null, jsonArray, null, null);
         showLoading();
     }
 

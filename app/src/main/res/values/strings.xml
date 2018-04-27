@@ -23,6 +23,7 @@
     <string name="about_me_lbl">Tôi</string>
     <string name="task_list_lbl">Đơn hàng</string>
     <string name="register_successfully">Đăng ký thành công, xin mời đăng nhập!</string>
+    <string name="register_failed">Có lỗi khi đăng ký, xin vui lòng thử lại sau!</string>
     <string name="login_fail">Email hoặc mật khẩu không chính xác, vui lòng nhập lại!</string>
     <string name="network_connection_title">Kết nối</string>
     <string name="slow_network_warning">Không có kết nối Internet hoặc tốc độ quá chậm. Xin kiểm tra lại kết nối Wifi hoặc mạng dữ liệu di động!</string>
@@ -68,6 +69,7 @@
     <string name="active">Active</string>
     <string name="working_area">Khu vực quản lý</string>
     <string name="order_stt_new">Mới tạo</string>
-    <string name="order_stt_processing">Đang\nxử lý</string>
+    <string name="order_stt_processing">Đang xử lý</string>
     <string name="order_stt_done">Hoàn thành</string>
+    <string name="product_quantity">Số lượng :</string>
 </resources>

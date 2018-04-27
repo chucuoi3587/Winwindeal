@@ -55,7 +55,7 @@ public class Constant {
     public static final String API_EDIT_USER = "/user/edit";
     public static final String API_ORDER_ADD = "/order/add";
     public static final String API_ORDER_EDIT = "/order/edit";
-    public static final String API_ORDER_SEARCH = "/order/search";
+    public static final String API_ORDER_SEARCH = "/order/search_many";
     public static final String API_ORDER_DETAIL = "/order/detail";
     public static final String API_DISTRICT_SALE_ASSIGN = "/district/asign";
     public static final String API_DISTRICT_SALE_GET = "/district/get";
@@ -79,10 +79,14 @@ public class Constant {
     public static final int HOME_FRAGMENT = 0;
     public static final int USERS_MANAGE_FRAGMENT = 1;
     public static final int SETTINGS_FRAGMENT = 2;
+    public static final int ORDER_FRAGMENT = 3;
 
     public static final int REQUEST_CREATE_PRODUCT = 1000;
     public static final int REQUEST_EDIT_PRODUCT = 1001;
     public static final int REQUEST_EDIT_USER = 1002;
     public static final int REQUEST_GET_IMAGE_CHOOSER_INTENT = 1003;
+    public static final int REQUEST_ORDER_DETAIL = 1004;
+
+    public static final String NOTIFICATION_CHANEL_ID = "wwd_chanel_id";
 
 }

@@ -34,14 +34,14 @@
         <activity android:name=".OrderListActivity"/>
         <activity android:name=".OrderDetailActivity"/>
 
-        <meta-data
+        <!--<meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/winwindeal_logo" />
+            android:resource="@drawable/winwindeal_logo" />-->
         <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more. -->
-        <meta-data
+        <!--<meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorPrimary" />
+            android:resource="@color/transparent" />-->
         <service
             android:name=".push.MyFirebaseMessagingService">
             <intent-filter>

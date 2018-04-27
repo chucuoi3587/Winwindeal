@@ -47,10 +47,11 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         } else {
             holder.priceTv.setText(mContext.getResources().getString(R.string.price_call));
         }
+        Glide.with(mContext).load(p.thumbnail).into(holder.thumbnail);
         holder.quantityTv.setText(String.valueOf(p.quantity));
-        holder.leftArrow.setVisibility(View.INVISIBLE);
-        holder.rightArrow.setVisibility(View.INVISIBLE);
-//        Glide.with(mContext).load(p.thumbnail).into(holder.thumbnail);
+        holder.quantityPreTv.setVisibility(View.VISIBLE);
+        holder.leftArrow.setVisibility(View.GONE);
+        holder.rightArrow.setVisibility(View.GONE);
     }
 
     @Override
@@ -60,13 +61,14 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView thumbnail, leftArrow, rightArrow;
-        public TextView nameTv, priceTv, quantityTv;
+        public TextView nameTv, priceTv, quantityTv, quantityPreTv;
         public ViewHolder(View view, Context context) {
             super(view);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
             nameTv = (TextView) view.findViewById(R.id.nameTv);
             priceTv = (TextView) view.findViewById(R.id.priceTv);
             quantityTv = (TextView) view.findViewById(R.id.quantityTv);
+            quantityPreTv = (TextView) view.findViewById(R.id.qtyPreTv);
             leftArrow = (ImageView) view.findViewById(R.id.leftArrow);
             rightArrow = (ImageView) view.findViewById(R.id.rightArrow);
             nameTv.setTypeface(FontUtil.getFontAssets(context, FontUtil.ROBOTO_MEDIUM));

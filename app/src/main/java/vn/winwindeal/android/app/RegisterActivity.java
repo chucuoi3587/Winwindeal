@@ -139,6 +139,21 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void loadDataFail(int requestIndex, int resultCode, Object result) {
         hideLoading();
+        switch (requestIndex) {
+            case Constant.REQUEST_API_REGISTER:
+                String message = ((JSONObject) result).optString("message", "");
+                if (message.equals("register_failed")) {
+                    DialogUtil.showWarningDialog(RegisterActivity.this, "", getResources().getString(R.string.register_failed),
+                            new View.OnClickListener(){
 
+                                @Override
+                                public void onClick(View view) {
+                                    finish();
+                                }
+                            }, Gravity.LEFT, false);
+                    break;
+                }
+                break;
+        }
     }
 }
