@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,6 +29,7 @@ import vn.winwindeal.android.app.adapter.OrderListAdapter;
 import vn.winwindeal.android.app.model.Order;
 import vn.winwindeal.android.app.model.UserInfo;
 import vn.winwindeal.android.app.network.DataLoader;
+import vn.winwindeal.android.app.webservice.GetSaleLocationWS;
 import vn.winwindeal.android.app.webservice.SearchOrderWS;
 
 /**
@@ -38,10 +40,12 @@ public class OrderFragment extends Fragment {
 
     private View mView;
     private SearchOrderWS mSearchWs;
+    private GetSaleLocationWS mGetSaleLocationWs;
     private ArrayList<Order> mOrders;
     private RecyclerView mRecyclerView;
     private OrderListAdapter mAdapter;
     private UserInfo ui;
+    JSONArray sttArray, userArray, distArray;
 
     @Nullable
     @Override
@@ -64,28 +68,31 @@ public class OrderFragment extends Fragment {
         ui = GlobalSharedPreference.getUserInfo(getActivity());
 
         mSearchWs = new SearchOrderWS(getActivity(), mHandler);
+        mGetSaleLocationWs = new GetSaleLocationWS(getActivity(), mHandler);
+        ((HomeActivity) getActivity()).showLoading();
+        if (ui.user_type == 1) {
+            // admin
+            sttArray = new JSONArray();
+            sttArray.put(1);
+            sttArray.put(2);
+        } else if (ui.user_type == 2) {
+            // sale
+            mGetSaleLocationWs.doGetSaleLocation(ui.user_id, null);
+        } else {
+            userArray = new JSONArray();
+            userArray.put(ui.user_id);
+            sttArray = new JSONArray();
+            sttArray.put(1);
+            sttArray.put(2);
+        }
         getData();
     }
 
     private void getData() {
-        if (ui.user_type == 1) {
-            // admin
-            JSONArray sttArray = new JSONArray();
-            sttArray.put(1);
-            sttArray.put(2);
-            mSearchWs.doSearchOrder(null, null, sttArray, null);
-            ((HomeActivity) getActivity()).showLoading();
-        } else if (ui.user_type == 2) {
-            // sale
-        } else {
-            JSONArray userArray = new JSONArray();
-            userArray.put(ui.user_id);
-            JSONArray sttArray = new JSONArray();
-            sttArray.put(1);
-            sttArray.put(2);
-            mSearchWs.doSearchOrder(null, userArray, sttArray, null);
+        if (!((HomeActivity) getActivity()).isLoading()) {
             ((HomeActivity) getActivity()).showLoading();
         }
+        mSearchWs.doSearchOrder(null, userArray, sttArray, distArray);
     }
 
     private DataLoader.DataLoaderInterface mHandler = new DataLoader.DataLoaderInterface() {
@@ -96,6 +103,8 @@ public class OrderFragment extends Fragment {
                     JSONArray jarray = ((JSONObject) result).optJSONArray("data");
                     if (mOrders == null) {
                         mOrders = new ArrayList<>();
+                    } else {
+                        mOrders.clear();
                     }
                     if (jarray != null && jarray.length() > 0) {
                         for (int i = 0; i < jarray.length(); i++) {
@@ -106,9 +115,21 @@ public class OrderFragment extends Fragment {
                         }
                         renderData();
                     }
+                    ((HomeActivity) getActivity()).hideLoading();
+                    break;
+                case Constant.REQUEST_API_DISTRICT__SALE_GET:
+                    JSONArray jsonArray = ((JSONObject) result).optJSONArray("data");
+                    if (jsonArray != null && jsonArray.length() > 0) {
+                        if (distArray == null) {
+                            distArray = new JSONArray();
+                        }
+                        for (int i = 0;i < jsonArray.length(); i++) {
+                            distArray.put(jsonArray.optJSONObject(i).optInt("district_id", -1));
+                        }
+                        getData();
+                    }
                     break;
             }
-            ((HomeActivity) getActivity()).hideLoading();
         }
 
         @Override

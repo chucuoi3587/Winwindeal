@@ -22,6 +22,7 @@ import vn.winwindeal.android.app.model.Product;
 import vn.winwindeal.android.app.network.DataLoader;
 import vn.winwindeal.android.app.util.DialogUtil;
 import vn.winwindeal.android.app.webservice.AddProductWS;
+import vn.winwindeal.android.app.webservice.EditProductWS;
 
 /**
  * Created by nhannguyen on 4/9/2018.
@@ -31,6 +32,7 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
 
     Toolbar toolbar;
     private AddProductWS mAddProductWs;
+    private EditProductWS mEditProductWs;
     private EditText mNameEdt, mCodeEdt,  mPriceEdt, mOriginEdt, mQuantityEdt, mDescriptionEdt;
     private ImageView mThumbnailImgv;
     private String mThumbnail = "";
@@ -69,19 +71,31 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
             mQuantityEdt.setText(String.valueOf(product.quantity));
             mDescriptionEdt.setText(product.description);
             Glide.with(CreateEditProductActivity.this).load(product.thumbnail).into((ImageView) findViewById(R.id.thumbnailImgv));
+            if (product.is_deleted == 1) {
+                mNameEdt.setEnabled(false);
+                mCodeEdt.setEnabled(false);
+                mPriceEdt.setEnabled(false);
+                mOriginEdt.setEnabled(false);
+                mThumbnailImgv.setEnabled(false);
+                mQuantityEdt.setEnabled(false);
+                mDescriptionEdt.setEnabled(false);
+            }
         } else {
             isEdit = false;
         }
 
         mAddProductWs = new AddProductWS(this);
+        mEditProductWs = new EditProductWS(this);
         mThumbnailImgv.setOnClickListener(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.product_header_menu, menu);
-        if(!isEdit) {
-            menu.findItem(R.id.action_delete).setVisible(false);
+        if (product.is_deleted == 0) {
+            getMenuInflater().inflate(R.menu.product_header_menu, menu);
+            if (!isEdit) {
+                menu.findItem(R.id.action_delete).setVisible(false);
+            }
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -94,6 +108,23 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
                 break;
             case R.id.action_save:
                 doSaveProduct();
+                break;
+            case R.id.action_delete:
+                DialogUtil.showConfirmDialog(CreateEditProductActivity.this, null, getString(R.string.delete_product_warning), null, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String strName = mNameEdt.getText().toString().trim();
+                        String strCode = mCodeEdt.getText().toString().trim();
+                        String strOrigin = mOriginEdt.getText().toString().trim();
+                        String strThumbnail = mThumbnail;
+                        String strPrice = mPriceEdt.getText().toString().trim();
+                        String description = mDescriptionEdt.getText().toString().trim();
+                        int quantity = mQuantityEdt.getText().toString().trim().equals("") ? 0 : Integer.parseInt(mQuantityEdt.getText().toString().trim());
+                        isLock = true;
+                        mEditProductWs.doEditProduct(strCode, strName, !strPrice.equals("") ? Double.parseDouble(strPrice) : 0, strOrigin, strThumbnail, quantity, description, 1);
+                        showLoading();
+                    }
+                }, null, true);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -109,7 +140,11 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
         int quantity = mQuantityEdt.getText().toString().trim().equals("") ? 0 : Integer.parseInt(mQuantityEdt.getText().toString().trim());
         if (!strName.equals("") && !strCode.equals("") && !strOrigin.equals("") && !strThumbnail.equals("")) {
             isLock = true;
-            mAddProductWs.doAddProduct(strCode, strName, !strPrice.equals("") ? Double.parseDouble(strPrice) : 0, strOrigin, strThumbnail, quantity, description);
+            if (!isEdit) {
+                mAddProductWs.doAddProduct(strCode, strName, !strPrice.equals("") ? Double.parseDouble(strPrice) : 0, strOrigin, strThumbnail, quantity, description);
+            } else {
+                mEditProductWs.doEditProduct(strCode, strName, !strPrice.equals("") ? Double.parseDouble(strPrice) : 0, strOrigin, strThumbnail, quantity, description, 0);
+            }
             showLoading();
         } else {
 
@@ -122,6 +157,15 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
         switch (requestIndex) {
             case Constant.REQUEST_API_ADD_PRODUCT:
                 DialogUtil.showWarningDialog(CreateEditProductActivity.this, null, getResources().getString(R.string.create_product_successfully), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                }, Gravity.LEFT, false);
+                break;
+            case Constant.REQUEST_API_EDIT_PRODUCT:
+                DialogUtil.showWarningDialog(CreateEditProductActivity.this, null, getResources().getString(R.string.edit_product_successfully), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         setResult(RESULT_OK);

@@ -32,6 +32,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
 
     public interface itemClickListener {
         void onItemClickListener(int position);
+        void onPhoneClickListener(int position);
     }
 
     public UserListAdapter(Context context, ArrayList<UserInfo> users, int type, itemClickListener listener){
@@ -59,9 +60,9 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         holder.emailTv.setText(usr.email);
         holder.addressTv.setText(usr.address);
         if (!usr.phone.equals("") && !usr.phone.equals("null")) {
-            holder.phoneTv.setText(usr.phone);
+//            holder.phoneTv.setText(usr.phone);
         } else {
-            holder.phoneTv.setText(mContext.getResources().getString(R.string.data_empty));
+//            holder.phoneTv.setText(mContext.getResources().getString(R.string.data_empty));
         }
         holder.emailTv.setText(usr.email);
         holder.districtTv.setText(mDistrictJSON.optString(String.valueOf(usr.district_id)));
@@ -76,6 +77,12 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
                 mlistener.onItemClickListener(position);
             }
         });
+        holder.phoneIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mlistener.onPhoneClickListener(position);
+            }
+        });
     }
 
     @Override
@@ -84,8 +91,8 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView avatar;
-        public TextView emailTv, districtTv, phoneTv, addressTv;
+        public ImageView avatar, phoneIcon;
+        public TextView emailTv, districtTv, /*phoneTv,*/ addressTv;
         LinearLayout mainLayout;
         public ViewHolder(View view, Context context) {
             super(view);
@@ -93,11 +100,12 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
             avatar = (ImageView) view.findViewById(R.id.avatarImgv);
             emailTv = (TextView) view.findViewById(R.id.emailTv);
             districtTv = (TextView) view.findViewById(R.id.districtTv);
-            phoneTv = (TextView) view.findViewById(R.id.phoneTv);
+//            phoneTv = (TextView) view.findViewById(R.id.phoneTv);
+            phoneIcon = (ImageView) view.findViewById(R.id.phoneIcon);
             addressTv = (TextView) view.findViewById(R.id.addressTv);
             emailTv.setTypeface(FontUtil.getFontAssets(context, FontUtil.ROBOTO_MEDIUM));
             districtTv.setTypeface(FontUtil.getFontAssets(context, FontUtil.ROBOTO_REGULAR));
-            phoneTv.setTypeface(FontUtil.getFontAssets(context, FontUtil.ROBOTO_REGULAR));
+//            phoneTv.setTypeface(FontUtil.getFontAssets(context, FontUtil.ROBOTO_REGULAR));
             addressTv.setTypeface(FontUtil.getFontAssets(context, FontUtil.ROBOTO_REGULAR));
         }
     }

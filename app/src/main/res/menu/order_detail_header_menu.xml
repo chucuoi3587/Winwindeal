@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_phone"
+        android:enabled="true"
+        android:title=""
+        android:icon="@drawable/icon_header_phone"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_save"
+        android:enabled="true"
+        android:title="@string/save_cap_lbl"
+        android:icon="@drawable/icon_header_correct"
+        app:showAsAction="ifRoom" />
+</menu>

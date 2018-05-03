@@ -27,6 +27,7 @@ public class Product implements Parcelable{
     public String thumbnail;
     public int type; // 1 : banh | 2 : do uong | 3 : sua tam | 4 : snack
     public int status;
+    public int is_deleted; // 0 is alive | 1 is deleted
     public boolean isHotdeal;
     public String created_at;
     public String updated_at;
@@ -57,6 +58,7 @@ public class Product implements Parcelable{
             json.accumulate("thumbnail", thumbnail);
             json.accumulate("type_id", type);
             json.accumulate("status", status);
+            json.accumulate("is_deleted", is_deleted);
             json.accumulate("isHotdeal",isHotdeal);
             return json;
         } catch (JSONException e) {
@@ -67,7 +69,10 @@ public class Product implements Parcelable{
 
     public Product(JSONObject json) {
         if (json != null) {
-            product_id = json.optInt("id");
+            product_id = json.optInt("id", -1);
+            if (product_id == -1) {
+                product_id = json.optInt("product_id", -1);
+            }
             code = json.optString("code");
             product_name = json.optString("name");
             price = json.optDouble("price");
@@ -96,6 +101,7 @@ public class Product implements Parcelable{
             } else {
                 updated_at = "";
             }
+            is_deleted = json.optInt("is_deleted", 0);
         }
     }
 
@@ -111,6 +117,7 @@ public class Product implements Parcelable{
         quantity = in.readInt();
         available_qty = in.readInt();
         pending_qty = in.readInt();
+        is_deleted = in.readInt();
     }
 
     @Override
@@ -131,6 +138,7 @@ public class Product implements Parcelable{
         dest.writeInt(quantity);
         dest.writeInt(available_qty);
         dest.writeInt(pending_qty);
+        dest.writeInt(is_deleted);
     }
 
     public static final Creator CREATOR = new Creator() {

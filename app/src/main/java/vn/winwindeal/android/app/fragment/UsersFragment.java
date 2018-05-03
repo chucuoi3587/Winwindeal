@@ -1,6 +1,7 @@
 package vn.winwindeal.android.app.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -31,6 +32,7 @@ import vn.winwindeal.android.app.adapter.UserListAdapter;
 import vn.winwindeal.android.app.model.UserInfo;
 import vn.winwindeal.android.app.network.DataLoader;
 import vn.winwindeal.android.app.util.CommonUtil;
+import vn.winwindeal.android.app.webservice.GetSaleLocationWS;
 import vn.winwindeal.android.app.webservice.SearchUserWS;
 
 public class UsersFragment extends Fragment {
@@ -39,11 +41,13 @@ public class UsersFragment extends Fragment {
     Toolbar toolbar;
     TabLayout tabLayout;
     private SearchUserWS mSearchUserWs;
+    private GetSaleLocationWS mGetSaleLocationWs;
     private ArrayList<UserInfo> mUsers = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private UserListAdapter mAdapter;
     private int mSearchType = 0; // 0 is staff | 1 is customer
     UserInfo ui;
+    JSONArray jarrayRoleIds, jarrayDistIds;
 
     @Nullable
     @Override
@@ -71,10 +75,12 @@ public class UsersFragment extends Fragment {
                 if (tab.getPosition() == 0) { // Staff
                     mSearchType = 0;
                     mUsers.clear();
+                    jarrayRoleIds.put(2);
                     doSearch();
                 } else {
                     mSearchType = 1;
                     mUsers.clear();
+                    jarrayRoleIds.put(3);
                     doSearch();
                 }
             }
@@ -100,13 +106,24 @@ public class UsersFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
 
         mSearchUserWs = new SearchUserWS(getActivity(), mHandler);
-        doSearch();
+        mGetSaleLocationWs = new GetSaleLocationWS(getActivity(), mHandler);
+        ((HomeActivity) getActivity()).showLoading();
+        if (ui.user_type == 2) {
+            // sale
+            tabLayout.setVisibility(View.GONE);
+            mGetSaleLocationWs.doGetSaleLocation(ui.user_id, null);
+        } else {
+            jarrayRoleIds = new JSONArray();
+            jarrayRoleIds.put(2);
+            doSearch();
+        }
     }
 
     private void doSearch() {
-        JSONArray jarray = new JSONArray();
-        mSearchUserWs.doSearch(mSearchType == 0? jarray.put(2) : jarray.put(3), null);
-        ((HomeActivity) getActivity()).showLoading();
+        mSearchUserWs.doSearch(jarrayRoleIds, null, jarrayDistIds);
+        if (!((HomeActivity) getActivity()).isLoading()) {
+            ((HomeActivity) getActivity()).showLoading();
+        }
     }
 
     private DataLoader.DataLoaderInterface mHandler = new DataLoader.DataLoaderInterface() {
@@ -126,6 +143,20 @@ public class UsersFragment extends Fragment {
                             }
                         }
                         renderData();
+                    }
+                    break;
+                case Constant.REQUEST_API_DISTRICT__SALE_GET:
+                    JSONArray jsonArray = ((JSONObject) result).optJSONArray("data");
+                    if (jsonArray != null && jsonArray.length() > 0) {
+                        if (jarrayDistIds == null) {
+                            jarrayDistIds = new JSONArray();
+                        }
+                        for (int i = 0;i < jsonArray.length(); i++) {
+                            jarrayDistIds.put(jsonArray.optJSONObject(i).optInt("district_id", -1));
+                        }
+                        jarrayRoleIds = new JSONArray();
+                        jarrayRoleIds.put(3);
+                        doSearch();
                     }
                     break;
             }
@@ -154,6 +185,15 @@ public class UsersFragment extends Fragment {
             intent.putExtra("user_id", usr.user_id);
             intent.putExtra("is_editable", ui.user_type == 1 ? true : false);
             startActivity(intent);
+        }
+
+        @Override
+        public void onPhoneClickListener(int position) {
+            UserInfo usr = mUsers.get(position);
+            if (!usr.phone.equals("") && !usr.phone.equals("null")) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + usr.phone));
+                startActivity(intent);
+            }
         }
     };
 }

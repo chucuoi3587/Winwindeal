@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -55,6 +56,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         Product p = mProducts.get(position);
+        Log.d("NhanNATC", "Product stt : " + p.is_deleted);
         holder.title.setText(p.product_name);
         holder.originTv.setText(mContext.getResources().getString(R.string.product_origin_hint) + ": " + p.product_origin);
         if (p.price > 0) {
@@ -62,7 +64,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         } else {
             holder.priceTv.setText(mContext.getResources().getString(R.string.price_call));
         }
-        if (p.available_qty == 0) {
+        if (p.is_deleted == 1) {
+            holder.statusTv.setBackgroundColor(CommonUtil.getColor(mContext, R.color.colorSubTextView));
+            holder.statusTv.setText(mContext.getResources().getString(R.string.deleted_product_lbl));
+        } else if (p.available_qty == 0) {
             holder.statusTv.setBackgroundColor(CommonUtil.getColor(mContext, R.color.colorSubTextView));
             holder.statusTv.setText(mContext.getResources().getString(R.string.out_of_stock));
         } else {

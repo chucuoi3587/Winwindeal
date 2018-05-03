@@ -1,5 +1,7 @@
 package vn.winwindeal.android.app;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -46,6 +48,7 @@ public class OrderDetailActivity extends BaseActivity implements DataLoader.Data
 
     Toolbar toolbar;
     private EditText mAddressEdt;
+    private TextView mTotalTv;
     private RecyclerView mRecyclerView;
     private CartListAdapter mAdapter;
     private ArrayList<Product> mProducts;
@@ -71,6 +74,8 @@ public class OrderDetailActivity extends BaseActivity implements DataLoader.Data
         ss.setSpan(FontUtil.getFontAssets(this, FontUtil.ROBOTO_MEDIUM), 0, ss.length(), 0);
         setTitle(ss);
 
+        mTotalTv = (TextView) findViewById(R.id.totalTv);
+        mTotalTv.setTypeface(FontUtil.getFontAssets(this, FontUtil.ROBOTO_MEDIUM));
         mProducts = new ArrayList<>();
         mAddressEdt = (EditText) findViewById(R.id.addressEdt);
         mAddressEdt.setEnabled(false);
@@ -100,8 +105,7 @@ public class OrderDetailActivity extends BaseActivity implements DataLoader.Data
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (ui.user_type == 1 || ui.user_type == 2) {
-            getMenuInflater().inflate(R.menu.product_header_menu, menu);
-            menu.findItem(R.id.action_delete).setVisible(false);
+            getMenuInflater().inflate(R.menu.order_detail_header_menu, menu);
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -141,15 +145,41 @@ public class OrderDetailActivity extends BaseActivity implements DataLoader.Data
                     }
                     changeSttLayout(mOrder.order_status_id);
                 }
+                mTotalTv.setText(String.format(getString(R.string.total_price_lbl), CommonUtil.parseNumberToString(mOrder.total_money, "###.##")));
             break;
             case Constant.REQUEST_API_ORDER_EDIT:
-                DialogUtil.showWarningDialog(OrderDetailActivity.this, null, getString(R.string.update_user_successfully), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setResult(RESULT_OK);
-                        finish();
+                String message = ((JSONObject) result).optString("message", "");
+                if (!message.equals("failed")) {
+                    DialogUtil.showWarningDialog(OrderDetailActivity.this, null, getString(R.string.update_user_successfully), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            setResult(RESULT_OK);
+                            finish();
+                        }
+                    }, Gravity.LEFT, false);
+                } else {
+                    String strResult = "";
+                    JSONArray jsonArray = ((JSONObject) result).optJSONObject("data").optJSONArray("products");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        String mess = jsonArray.optJSONObject(i).optJSONObject("result").optString("mess", "");
+                        if (mess.equals("product_not_found")) {
+                            if (strResult.equals("")) {
+                                strResult = jsonArray.optJSONObject(i).optString("name", "");
+                            } else {
+                                strResult += ", " + jsonArray.optJSONObject(i).optString("name", "");
+                            }
+                        }
                     }
-                }, Gravity.LEFT, false);
+                    if (!strResult.equals("")) {
+                        strResult += " " + getString(R.string.update_order_failed);
+                        DialogUtil.showWarningDialog(OrderDetailActivity.this, null, strResult, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                finish();
+                            }
+                        }, Gravity.LEFT, false);
+                    }
+                }
                 break;
         }
     }
@@ -169,6 +199,12 @@ public class OrderDetailActivity extends BaseActivity implements DataLoader.Data
                 if (mOrderStt != mOrder.order_status_id) {
                     showLoading();
                     new UpdateOrderAsyncTask().execute();
+                }
+                break;
+            case R.id.action_phone:
+                if (mOrder != null) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mOrder.phone));
+                    startActivity(intent);
                 }
                 break;
         }

@@ -77,6 +77,9 @@ public class UserDetailActivity extends BaseActivity implements DataLoader.DataL
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.product_header_menu, menu);
+        if (!getIntent().getBooleanExtra("is_editable", false)) {
+            menu.findItem(R.id.action_save).setVisible(false);
+        }
         menu.findItem(R.id.action_delete).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
@@ -127,7 +130,7 @@ public class UserDetailActivity extends BaseActivity implements DataLoader.DataL
             userId = getIntent().getIntExtra("user_id", -1);
             if (userId != -1) {
                 JSONArray jsonArray = new JSONArray();
-                mSearchUserWs.doSearch(null, jsonArray.put(userId));
+                mSearchUserWs.doSearch(null, jsonArray.put(userId), null);
                 showLoading();
             }
         }

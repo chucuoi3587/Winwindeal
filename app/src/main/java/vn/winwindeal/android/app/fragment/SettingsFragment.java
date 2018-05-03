@@ -54,7 +54,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         mView.findViewById(R.id.logoutBtn).setOnClickListener(this);
         ui = GlobalSharedPreference.getUserInfo(getActivity());
         JSONArray jsonArray = new JSONArray();
-        mSearchUserWs.doSearch(null, jsonArray.put(ui.user_id));
+        mSearchUserWs.doSearch(null, jsonArray.put(ui.user_id), null);
         ((HomeActivity) getActivity()).showLoading();
         ((TextView) mView.findViewById(R.id.emailTv)).setText(ui.email);
         mAvatar = (CircleImageView) mView.findViewById(R.id.avatarImgv);
@@ -65,7 +65,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         mView.findViewById(R.id.emailTv).setOnClickListener(this);
         mView.findViewById(R.id.orderHistoryLayout).setOnClickListener(this);
 
-        if (ui.user_type == 1) {
+        if (ui.user_type == 1 || ui.user_type == 2) {
             mView.findViewById(R.id.cartLayout).setVisibility(View.GONE);
             mView.findViewById(R.id.cartSeparate).setVisibility(View.GONE);
             mView.findViewById(R.id.orderHistoryLayout).setVisibility(View.GONE);

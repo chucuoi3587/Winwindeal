@@ -26,11 +26,17 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
     private JSONObject mQuantityJson;
     private Context mContext;
     public boolean isEdit = false;
+    private CartListQuantityListener mListener;
 
-    public CartListAdapter(Context context, ArrayList<Product> products, JSONObject quantity){
+    public interface CartListQuantityListener {
+        void onChangeQuantity(double price, boolean isMinus);
+    }
+
+    public CartListAdapter(Context context, ArrayList<Product> products, JSONObject quantity, CartListQuantityListener listener){
         this.mContext = context;
         this.mProducts = products;
         this.mQuantityJson = quantity;
+        this.mListener = listener;
     }
 
     public ArrayList<Product> getProducts() {
@@ -53,7 +59,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
         final Product p = mProducts.get(position);
         holder.nameTv.setText(p.product_name);
         if (p.price > 0) {
-            holder.priceTv.setText(String.valueOf(p.price));
+            holder.priceTv.setText(String.format(mContext.getResources().getString(R.string.product_price_lbl), String.valueOf(p.price)));
         } else {
             holder.priceTv.setText(mContext.getResources().getString(R.string.price_call));
         }
@@ -76,9 +82,11 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
                             mQuantityJson.remove(String.valueOf(p.product_id));
                             notifyDataSetChanged();
                             isEdit = true;
+                            mListener.onChangeQuantity(p.price, true);
                         }
                     }, null, true);
                 } else {
+                    mListener.onChangeQuantity(p.price, true);
                     i -= 1;
                     holder.quantityTv.setText(String.valueOf(i));
                     try {
@@ -95,6 +103,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
             public void onClick(View v) {
                 int i = Integer.parseInt(holder.quantityTv.getText().toString().trim());
                 i += 1;
+                mListener.onChangeQuantity(p.price, false);
                 holder.quantityTv.setText(String.valueOf(i));
                 try {
                     mQuantityJson.put(String.valueOf(p.product_id), i);

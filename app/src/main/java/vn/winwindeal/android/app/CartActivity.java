@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,11 +38,13 @@ public class CartActivity extends BaseActivity implements View.OnClickListener, 
 
     Toolbar toolbar;
     private EditText mAddressEdt;
+    private TextView mTotalTv;
     private RecyclerView mRecyclerView;
     private CartListAdapter mAdapter;
     private ArrayList<Product> mProducts;
     private AddOrderWS mAddOrderWs;
     private SearchUserWS mSearchUserWs;
+    private double mTotal;
     UserInfo ui;
 
     @Override
@@ -73,24 +76,41 @@ public class CartActivity extends BaseActivity implements View.OnClickListener, 
         HashMap<String, String> map = GlobalSharedPreference.getProductOrder(this);
         try {
             JSONObject json = new JSONObject(map.get(Constant.ORDER));
+            JSONObject jsonQtt = new JSONObject(map.get(Constant.QUANTITY));
             JSONArray jsonArray = json.optJSONArray(Constant.JSON_TAG_ORDER);
             for (int i = 0; i < jsonArray.length(); i++) {
                 Product p = new Product(jsonArray.optJSONObject(i));
                 mProducts.add(p);
+                mTotal += p.price * jsonQtt.getInt(String.valueOf(p.product_id));
             }
-            mAdapter = new CartListAdapter(this, mProducts, new JSONObject(map.get(Constant.QUANTITY)));
+            mAdapter = new CartListAdapter(this, mProducts, jsonQtt, mListener);
             mRecyclerView.setAdapter(mAdapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        mTotalTv = (TextView) findViewById(R.id.totalTv);
+        mTotalTv.setTypeface(FontUtil.getFontAssets(this, FontUtil.ROBOTO_MEDIUM));
+        mTotalTv.setText(String.format(getString(R.string.total_price_lbl), CommonUtil.parseNumberToString(mTotal, "###.##")));
         mAddOrderWs = new AddOrderWS(this);
         mSearchUserWs = new SearchUserWS(this);
         JSONArray jsonArray = new JSONArray();
-        mSearchUserWs.doSearch(null, jsonArray.put(GlobalSharedPreference.getUserInfo(this).user_id));
+        mSearchUserWs.doSearch(null, jsonArray.put(GlobalSharedPreference.getUserInfo(this).user_id), null);
         showLoading();
 
         findViewById(R.id.confirmOrderBtn).setOnClickListener(this );
     }
+
+    private CartListAdapter.CartListQuantityListener mListener = new CartListAdapter.CartListQuantityListener() {
+        @Override
+        public void onChangeQuantity(double price, boolean isMinus) {
+            if (isMinus) {
+                mTotal -= price;
+            } else {
+                mTotal += price;
+            }
+            mTotalTv.setText(String.format(getString(R.string.total_price_lbl), CommonUtil.parseNumberToString(mTotal, "###.##")));
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -182,11 +202,13 @@ public class CartActivity extends BaseActivity implements View.OnClickListener, 
         switch (view.getId()) {
             case R.id.confirmOrderBtn:
                 String address = mAddressEdt.getText().toString();
-                if (!address.equals("")) {
-                    showLoading();
-                    new CreatOrderAsyncTask().execute();
-                } else {
-                    DialogUtil.showWarningDialog(CartActivity.this, null, getString(R.string.address_warning), null, Gravity.LEFT, false);
+                if (mProducts != null && !mProducts.isEmpty()) {
+                    if (!address.equals("")) {
+                        showLoading();
+                        new CreatOrderAsyncTask().execute();
+                    } else {
+                        DialogUtil.showWarningDialog(CartActivity.this, null, getString(R.string.address_warning), null, Gravity.LEFT, false);
+                    }
                 }
                 break;
         }

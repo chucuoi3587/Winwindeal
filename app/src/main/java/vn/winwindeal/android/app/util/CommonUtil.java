@@ -26,6 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -262,5 +263,10 @@ public class CommonUtil {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return formatter.format(cal.getTime());
+    }
+
+    public static String parseNumberToString(double number, String formatpattern) {
+        DecimalFormat format = new DecimalFormat(formatpattern);
+        return format.format(number);
     }
 }

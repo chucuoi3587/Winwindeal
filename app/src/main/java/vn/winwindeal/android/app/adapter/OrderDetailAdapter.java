@@ -43,7 +43,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         final Product p = mProducts.get(position);
         holder.nameTv.setText(p.product_name);
         if (p.price > 0) {
-            holder.priceTv.setText(String.valueOf(p.price));
+            holder.priceTv.setText(String.format(mContext.getResources().getString(R.string.product_price_lbl), String.valueOf(p.price)));
         } else {
             holder.priceTv.setText(mContext.getResources().getString(R.string.price_call));
         }

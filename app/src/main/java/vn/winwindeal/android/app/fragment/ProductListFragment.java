@@ -85,7 +85,11 @@ public class ProductListFragment extends Fragment implements View.OnClickListene
                         for (int i = 0; i < jarray.length(); i++) {
                             Product p = new Product(jarray.optJSONObject(i));
                             if (p != null) {
-                                mProducts.add(p);
+                                if (ui.user_type != 1 && p.is_deleted == 0) {
+                                    mProducts.add(p);
+                                } else {
+                                    mProducts.add(p);
+                                }
                             }
                         }
                         renderData();

@@ -32,10 +32,12 @@
     <string name="product_code_hint">Mã sản phẩm</string>
     <string name="product_origin_hint">Xuất xứ</string>
     <string name="product_price_hint">Giá</string>
+    <string name="product_price_lbl">Đơn giá : %s</string>
     <string name="product_thumbnail_hint">Link hình ảnh</string>
     <string name="description_hint">Mô tả sản phẩm</string>
     <string name="quantity_hint">Số lượng</string>
     <string name="create_product_successfully">Tạo sản phẩm thành công!</string>
+    <string name="edit_product_successfully">Cập nhật sản phẩm thành công!</string>
     <string name="price_call">Giá : Liên hệ</string>
     <string name="order_now">Đặt hàng ngay</string>
     <string name="confirm_order">XÁC NHẬN ĐẶT HÀNG</string>
@@ -43,6 +45,7 @@
     <string name="cart_lbl">Giỏ hàng</string>
     <string name="alive_lbl">Còn hàng</string>
     <string name="out_of_stock">Hết hàng</string>
+    <string name="deleted_product_lbl">Đã xóa</string>
     <string name="save_cap_lbl">LƯU</string>
     <string name="delete_cap_lbl">XÓA</string>
     <string name="user_manage">Quản lý người dùng</string>
@@ -72,4 +75,7 @@
     <string name="order_stt_processing">Đang xử lý</string>
     <string name="order_stt_done">Hoàn thành</string>
     <string name="product_quantity">Số lượng :</string>
+    <string name="update_order_failed">hết hàng. Cập nhật đơn hàng thất bại!</string>
+    <string name="total_price_lbl">Tổng tiền : %s</string>
+    <string name="delete_product_warning">Bạn có muốn xóa sản phẩm này?</string>
 </resources>

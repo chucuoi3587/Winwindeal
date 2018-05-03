@@ -42,13 +42,19 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_3"/>
             </LinearLayout>
-            <TextView
+            <!--<TextView
                 android:id="@+id/phoneTv"
                 android:layout_width="0dp"
                 android:layout_weight="0.3"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="@dimen/text_size_3"/>
+                android:textSize="@dimen/text_size_3"/>-->
+            <ImageView
+                android:id="@+id/phoneIcon"
+                android:layout_width="@dimen/phone_width"
+                android:layout_height="wrap_content"
+                android:src="@drawable/phone_icon"
+                android:scaleType="centerInside"/>
         </LinearLayout>
         <TextView
             android:id="@+id/addressTv"
