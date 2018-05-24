@@ -5,12 +5,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorBackground">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:scrollbars="vertical" />
+        android:orientation="vertical">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:theme="@style/ToolbarColoredBackArrow"
+            app:titleTextColor="@color/colorWhite"
+            android:elevation="4dp">
+            <TextView
+                android:id="@+id/actionbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_medium"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="@color/colorWhite"
+                android:layout_marginRight="5dp"/>
+        </android.support.v7.widget.Toolbar>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:scrollbars="vertical" />
+    </LinearLayout>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/plusIcon"
         android:layout_width="wrap_content"

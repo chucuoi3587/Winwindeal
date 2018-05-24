@@ -6,19 +6,27 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import vn.winwindeal.android.app.Constant;
 import vn.winwindeal.android.app.CreateEditProductActivity;
@@ -32,6 +40,7 @@ import vn.winwindeal.android.app.model.Product;
 import vn.winwindeal.android.app.model.UserInfo;
 import vn.winwindeal.android.app.network.DataLoader;
 import vn.winwindeal.android.app.util.CommonUtil;
+import vn.winwindeal.android.app.util.FontUtil;
 import vn.winwindeal.android.app.webservice.ListAllProductWS;
 
 /**
@@ -45,17 +54,25 @@ public class ProductListFragment extends Fragment implements View.OnClickListene
     private ArrayList<Product> mProducts;
     private RecyclerView recyclerView;
     private ProductListAdapter mAdapter;
+    private TextView textCartItemCount;
     private UserInfo ui;
+    Toolbar toolbar;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.product_list_fragment, container, false);
+        setHasOptionsMenu(true);
         initComponents();
         return mView;
     }
 
     private void initComponents() {
+        toolbar = (Toolbar) mView.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).setTitle("");
+        ((TextView) toolbar.findViewById(R.id.actionbarTitle)).setText(getString(R.string.app_name));
+        ((TextView) toolbar.findViewById(R.id.actionbarTitle)).setTypeface(FontUtil.getFontAssets(getActivity(), FontUtil.ROBOTO_MEDIUM));
         ui = GlobalSharedPreference.getUserInfo(getActivity());
         if (ui.user_type != 1) {
             mView.findViewById(R.id.plusIcon).setVisibility(View.GONE);
@@ -109,6 +126,62 @@ public class ProductListFragment extends Fragment implements View.OnClickListene
         }
     };
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.product_list_menu, menu);
+        if (ui.user_type == 1 || ui.user_type == 2) {
+            menu.findItem(R.id.action_cart).setVisible(false);
+        } else {
+            final MenuItem menuItem = menu.findItem(R.id.action_cart);
+
+            View actionView = menuItem.getActionView();
+            textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
+            setupBadge();
+            actionView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onOptionsItemSelected(menuItem);
+                }
+            });
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_cart: {
+                // Do something
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setupBadge() {
+        if (textCartItemCount != null) {
+            HashMap<String, String> map = GlobalSharedPreference.getProductOrder(getActivity());
+            int CartItemCount = 0;
+            try {
+                JSONObject json = new JSONObject(map.get(Constant.QUANTITY));
+                CartItemCount = json.length();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (CartItemCount == 0) {
+                if (textCartItemCount.getVisibility() != View.GONE) {
+                    textCartItemCount.setVisibility(View.GONE);
+                }
+            } else {
+                textCartItemCount.setText(String.valueOf(Math.min(CartItemCount, 99)));
+                if (textCartItemCount.getVisibility() != View.VISIBLE) {
+                    textCartItemCount.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+    }
+
     private void renderData() {
         if (mAdapter == null) {
             mAdapter = new ProductListAdapter(getActivity(), mProducts, new MyMenuItemClickListener(), ui.user_type);
@@ -159,6 +232,7 @@ public class ProductListFragment extends Fragment implements View.OnClickListene
                     return true;
                 case R.id.action_add_to_cart:
                     CommonUtil.addProductToCart(getActivity(), product);
+                    setupBadge();
                     return true;
             }
             return false;
