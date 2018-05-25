@@ -3,9 +3,11 @@ package vn.winwindeal.android.app;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -17,9 +19,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import vn.winwindeal.android.app.model.Product;
 import vn.winwindeal.android.app.network.DataLoader;
+import vn.winwindeal.android.app.util.CommonUtil;
 import vn.winwindeal.android.app.util.DialogUtil;
 import vn.winwindeal.android.app.webservice.AddProductWS;
 import vn.winwindeal.android.app.webservice.EditProductWS;
@@ -198,8 +203,12 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.thumbnailImgv:
-                Intent intent = new Intent(CreateEditProductActivity.this, MyCropImageActivity.class);
-                startActivityForResult(intent, Constant.REQUEST_GET_IMAGE_CHOOSER_INTENT);
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON)
+                        .setAspectRatio(1, 1)
+                        .setFixAspectRatio(true)
+                        .setMinCropResultSize(256,256)
+                        .setMaxCropResultSize(512,512)
+                        .start(this);
                 break;
         }
     }
@@ -208,12 +217,18 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case Constant.REQUEST_GET_IMAGE_CHOOSER_INTENT:
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
-                    mThumbnail = data.getStringExtra("path");
-                    Bitmap bmp = BitmapFactory.decodeFile(mThumbnail);
-                    if (bmp != null) {
-                        mThumbnailImgv.setImageBitmap(bmp);
+                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                    Uri resultUri = result.getUri();
+                    String path = CommonUtil.getPathFromUri(CreateEditProductActivity.this, resultUri);
+                    Log.d("Nhannatc", "Url location : " + path);
+                    if (path != null && !path.equals("")) {
+                        Bitmap bmp = BitmapFactory.decodeFile(path);
+                        if (bmp != null) {
+                            Log.d("Nhannatc", "Width : " + bmp.getWidth() + " == height : " + bmp.getHeight());
+                            mThumbnailImgv.setImageBitmap(bmp);
+                        }
                     }
                 }
                 break;

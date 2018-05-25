@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +24,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -323,8 +327,12 @@ public class UserDetailActivity extends BaseActivity implements DataLoader.DataL
         }
         switch (v.getId()) {
             case R.id.avatarImgv:
-                Intent intent = new Intent(UserDetailActivity.this, MyCropImageActivity.class);
-                startActivityForResult(intent, Constant.REQUEST_GET_IMAGE_CHOOSER_INTENT);
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON)
+                        .setAspectRatio(1, 1)
+                        .setFixAspectRatio(true)
+                        .setMinCropResultSize(256,256)
+                        .setMaxCropResultSize(512,512)
+                        .start(this);
                 break;
             case R.id.sttToggle:
                 if (mUser.status == 0) {
@@ -349,12 +357,18 @@ public class UserDetailActivity extends BaseActivity implements DataLoader.DataL
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case Constant.REQUEST_GET_IMAGE_CHOOSER_INTENT:
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
-                    mAvatarPath = data.getStringExtra("path");
-                    Bitmap bmp = BitmapFactory.decodeFile(mAvatarPath);
-                    if (bmp != null) {
-                        mAvatar.setImageBitmap(bmp);
+                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                    Uri resultUri = result.getUri();
+                    String path = CommonUtil.getPathFromUri(UserDetailActivity.this, resultUri);
+                    Log.d("Nhannatc", "Url location : " + path);
+                    if (path != null && !path.equals("")) {
+                        Bitmap bmp = BitmapFactory.decodeFile(path);
+                        if (bmp != null) {
+                            Log.d("Nhannatc", "Width : " + bmp.getWidth() + " == height : " + bmp.getHeight());
+                            mAvatar.setImageBitmap(bmp);
+                        }
                     }
                 }
                 break;

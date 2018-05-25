@@ -30,9 +30,10 @@
         <activity android:name=".ContactUsActivity"/>
         <activity android:name=".AboutUsActivity"/>
         <activity android:name=".UserDetailActivity"/>
-        <activity android:name=".MyCropImageActivity"/>
         <activity android:name=".OrderListActivity"/>
         <activity android:name=".OrderDetailActivity"/>
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
 
         <!--<meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

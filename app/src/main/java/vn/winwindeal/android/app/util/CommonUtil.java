@@ -2,9 +2,12 @@ package vn.winwindeal.android.app.util;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.util.TypedValue;
 
 import org.json.JSONArray;
@@ -268,5 +271,27 @@ public class CommonUtil {
     public static String parseNumberToString(double number, String formatpattern) {
         DecimalFormat format = new DecimalFormat(formatpattern);
         return format.format(number);
+    }
+
+    public static String getPathFromUri(Context context, Uri uri) {
+        String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+        String path = "";
+        Cursor cursor = context.getContentResolver().query(uri, filePathColumn,
+                null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            if (columnIndex != -1) {
+                path = cursor.getString(columnIndex);
+            } else {
+                path = cursor.getString(0);
+            }
+            cursor.close();
+        } else {
+            path = uri.getPath();
+        }
+        return path;
     }
 }
