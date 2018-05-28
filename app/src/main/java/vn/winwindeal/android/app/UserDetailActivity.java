@@ -331,7 +331,7 @@ public class UserDetailActivity extends BaseActivity implements DataLoader.DataL
                         .setAspectRatio(1, 1)
                         .setFixAspectRatio(true)
                         .setMinCropResultSize(256,256)
-                        .setMaxCropResultSize(512,512)
+//                        .setMaxCropResultSize(512,512)
                         .start(this);
                 break;
             case R.id.sttToggle:
@@ -364,6 +364,8 @@ public class UserDetailActivity extends BaseActivity implements DataLoader.DataL
                     String path = CommonUtil.getPathFromUri(UserDetailActivity.this, resultUri);
                     Log.d("Nhannatc", "Url location : " + path);
                     if (path != null && !path.equals("")) {
+                        CommonUtil.ValidateImageResolution(path, 0);
+                        mAvatarPath = path;
                         Bitmap bmp = BitmapFactory.decodeFile(path);
                         if (bmp != null) {
                             Log.d("Nhannatc", "Width : " + bmp.getWidth() + " == height : " + bmp.getHeight());

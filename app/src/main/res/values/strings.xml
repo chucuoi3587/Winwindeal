@@ -16,6 +16,8 @@
     <string name="password_wrong_warning">Sai mật khẩu.</string>
     <string name="ok_lbl">ĐỒNG Ý</string>
     <string name="cancel_lbl">HỦY</string>
+    <string name="yes_lbl">CÓ</string>
+    <string name="no_lbl">KHÔNG</string>
     <string name="message_error_server">Không thể kết nối với server.</string>
     <string name="register_cap_lbl">ĐĂNG KÝ</string>
     <string name="create_account_lbl">Tạo tài khoản</string>
@@ -78,4 +80,5 @@
     <string name="update_order_failed">hết hàng. Cập nhật đơn hàng thất bại!</string>
     <string name="total_price_lbl">Tổng tiền : %s</string>
     <string name="delete_product_warning">Bạn có muốn xóa sản phẩm này?</string>
+    <string name="log_out_confirm_message">Bạn có muốn thoát khỏi chương trình?</string>
 </resources>

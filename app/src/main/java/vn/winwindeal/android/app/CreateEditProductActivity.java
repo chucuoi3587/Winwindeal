@@ -7,15 +7,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -68,6 +71,8 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
 
         product = getIntent().getParcelableExtra("product");
         if (product != null) {
+            DisplayMetrics dMetrics = getResources().getDisplayMetrics();
+            mThumbnailImgv.setLayoutParams(new LinearLayout.LayoutParams(dMetrics.widthPixels, dMetrics.widthPixels));
             isEdit = true;
             mNameEdt.setText(product.product_name);
             mCodeEdt.setText(product.code);
@@ -96,11 +101,13 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (product.is_deleted == 0) {
-            getMenuInflater().inflate(R.menu.product_header_menu, menu);
+        getMenuInflater().inflate(R.menu.product_header_menu, menu);
+        if (product != null && product.is_deleted == 0) {
             if (!isEdit) {
                 menu.findItem(R.id.action_delete).setVisible(false);
             }
+        } else {
+            menu.findItem(R.id.action_delete).setVisible(false);
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -206,8 +213,8 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
                 CropImage.activity().setGuidelines(CropImageView.Guidelines.ON)
                         .setAspectRatio(1, 1)
                         .setFixAspectRatio(true)
-                        .setMinCropResultSize(256,256)
-                        .setMaxCropResultSize(512,512)
+//                        .setMinCropResultSize(256,256)
+                        .setMinCropResultSize(512,512)
                         .start(this);
                 break;
         }
@@ -224,6 +231,10 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
                     String path = CommonUtil.getPathFromUri(CreateEditProductActivity.this, resultUri);
                     Log.d("Nhannatc", "Url location : " + path);
                     if (path != null && !path.equals("")) {
+                        DisplayMetrics dMetrics = getResources().getDisplayMetrics();
+                        mThumbnailImgv.setLayoutParams(new LinearLayout.LayoutParams(dMetrics.widthPixels, dMetrics.widthPixels));
+                        CommonUtil.ValidateImageResolution(path, 1);
+                        mThumbnail = path;
                         Bitmap bmp = BitmapFactory.decodeFile(path);
                         if (bmp != null) {
                             Log.d("Nhannatc", "Width : " + bmp.getWidth() + " == height : " + bmp.getHeight());

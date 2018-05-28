@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -294,4 +295,54 @@ public class CommonUtil {
         }
         return path;
     }
+
+    /**
+     *
+     * @param path
+     * @param type : 0 is avatar | 1 is product image
+     */
+    public static void ValidateImageResolution(String path, int type) {
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, opts);
+        FileOutputStream fos;
+        int scaleFactor = 1;
+        if (type == 0 && opts.outWidth > 256) {
+            scaleFactor = (int) Math.ceil(opts.outWidth / 256);
+        } else if (type == 1 && opts.outWidth > 512) {
+            scaleFactor = (int) Math.ceil(opts.outWidth / 512);
+        }
+        if (scaleFactor > 1) {
+            opts.inSampleSize = scaleFactor;
+            opts.inJustDecodeBounds = false;
+            opts.inPurgeable = true;
+
+            Bitmap bmp = BitmapFactory.decodeFile(path, opts);
+            Bitmap scaleBmp = null;
+            try {
+                fos = new FileOutputStream(path);
+                if (type == 0 && bmp.getWidth() > 256) {
+                    scaleBmp = Bitmap.createScaledBitmap(bmp, 256, 256, true);
+                } else if (type == 1 && bmp.getWidth() > 512) {
+                    scaleBmp = Bitmap.createScaledBitmap(bmp, 512, 512, true);
+                }
+                if (scaleBmp != null) {
+                    bmp.recycle();
+                    scaleBmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                } else {
+                    bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } finally {
+                if (scaleBmp != null) {
+                    scaleBmp.recycle();
+                }
+                if (bmp != null) {
+                    bmp.recycle();
+                }
+            }
+        }
+    }
+
 }

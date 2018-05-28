@@ -7,12 +7,14 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
+import android.view.View;
 
 import vn.winwindeal.android.app.fragment.OrderFragment;
 import vn.winwindeal.android.app.fragment.ProductListFragment;
 import vn.winwindeal.android.app.fragment.SettingsFragment;
 import vn.winwindeal.android.app.fragment.UsersFragment;
 import vn.winwindeal.android.app.model.UserInfo;
+import vn.winwindeal.android.app.util.DialogUtil;
 
 /**
  * Created by nhannguyen on 4/6/2018.
@@ -101,7 +103,12 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finishAffinity();
+//        super.onBackPressed();
+        DialogUtil.showConfirmDialog(HomeActivity.this, null, getString(R.string.log_out_confirm_message), getString(R.string.yes_lbl), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishAffinity();
+            }
+        }, getString(R.string.no_lbl), false);
     }
 }

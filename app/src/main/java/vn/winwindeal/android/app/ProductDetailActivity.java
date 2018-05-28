@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -39,6 +41,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         mNameTv = (TextView) findViewById(R.id.nameTv);
         mPriceTv = (TextView) findViewById(R.id.priceTv);
         mDescriptionTv = (TextView) findViewById(R.id.descriptionTv);
+
+        DisplayMetrics dMetrics = getResources().getDisplayMetrics();
+        mThumbnail.setLayoutParams(new LinearLayout.LayoutParams(dMetrics.widthPixels, dMetrics.widthPixels));
 
         mNameTv.setTypeface(FontUtil.getFontAssets(this, FontUtil.ROBOTO_MEDIUM));
         mNameTv.setText(mProduct.product_name);

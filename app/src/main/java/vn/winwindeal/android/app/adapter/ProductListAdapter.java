@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +22,7 @@ import vn.winwindeal.android.app.R;
 import vn.winwindeal.android.app.fragment.ProductListFragment;
 import vn.winwindeal.android.app.model.Product;
 import vn.winwindeal.android.app.util.CommonUtil;
+import vn.winwindeal.android.app.util.FontUtil;
 
 /**
  * Created by nhannguyen on 4/6/2018.
@@ -112,6 +115,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             } else {
                 overflow.setVisibility(View.VISIBLE);
             }
+            title.setTypeface(FontUtil.getFontAssets(mContext, FontUtil.ROBOTO_MEDIUM));
+            priceTv.setTypeface(FontUtil.getFontAssets(mContext, FontUtil.ROBOTO_REGULAR));
+            originTv.setTypeface(FontUtil.getFontAssets(mContext, FontUtil.ROBOTO_REGULAR));
+            statusTv.setTypeface(FontUtil.getFontAssets(mContext, FontUtil.ROBOTO_MEDIUM));
+            ViewTreeObserver vto = thumbnail.getViewTreeObserver();
+            vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    thumbnail.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    thumbnail.setLayoutParams(new RelativeLayout.LayoutParams(thumbnail.getWidth(), thumbnail.getWidth()));
+                }
+            });
         }
     }
 
