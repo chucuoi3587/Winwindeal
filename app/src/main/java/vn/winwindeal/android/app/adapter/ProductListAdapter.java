@@ -124,7 +124,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 @Override
                 public void onGlobalLayout() {
                     thumbnail.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    thumbnail.setLayoutParams(new RelativeLayout.LayoutParams(thumbnail.getWidth(), thumbnail.getWidth()));
+                    int height = thumbnail.getWidth() * 3 / 4;
+                    thumbnail.setLayoutParams(new RelativeLayout.LayoutParams(thumbnail.getWidth(), height));
                 }
             });
         }

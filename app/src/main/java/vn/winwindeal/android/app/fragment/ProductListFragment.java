@@ -153,6 +153,11 @@ public class ProductListFragment extends Fragment implements View.OnClickListene
 
             case R.id.action_cart: {
                 // Do something
+                HashMap<String, String> map = GlobalSharedPreference.getProductOrder(getActivity());
+                if (!map.get(Constant.QUANTITY).equals("")) {
+                    Intent intent = new Intent(getActivity(), CartActivity.class);
+                    startActivity(intent);
+                }
                 return true;
             }
         }

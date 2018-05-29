@@ -324,7 +324,7 @@ public class CommonUtil {
                 if (type == 0 && bmp.getWidth() > 256) {
                     scaleBmp = Bitmap.createScaledBitmap(bmp, 256, 256, true);
                 } else if (type == 1 && bmp.getWidth() > 512) {
-                    scaleBmp = Bitmap.createScaledBitmap(bmp, 512, 512, true);
+                    scaleBmp = Bitmap.createScaledBitmap(bmp, 512, 512 * 3 / 4, true);
                 }
                 if (scaleBmp != null) {
                     bmp.recycle();

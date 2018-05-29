@@ -72,7 +72,7 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
         product = getIntent().getParcelableExtra("product");
         if (product != null) {
             DisplayMetrics dMetrics = getResources().getDisplayMetrics();
-            mThumbnailImgv.setLayoutParams(new LinearLayout.LayoutParams(dMetrics.widthPixels, dMetrics.widthPixels));
+            mThumbnailImgv.setLayoutParams(new LinearLayout.LayoutParams(dMetrics.widthPixels, (int) dMetrics.widthPixels * 3 / 4));
             isEdit = true;
             mNameEdt.setText(product.product_name);
             mCodeEdt.setText(product.code);
@@ -211,7 +211,7 @@ public class CreateEditProductActivity extends BaseActivity implements DataLoade
         switch (v.getId()) {
             case R.id.thumbnailImgv:
                 CropImage.activity().setGuidelines(CropImageView.Guidelines.ON)
-                        .setAspectRatio(1, 1)
+                        .setAspectRatio(4, 3)
                         .setFixAspectRatio(true)
 //                        .setMinCropResultSize(256,256)
                         .setMinCropResultSize(512,512)
